@@ -43,7 +43,7 @@ void nsVisuals::setup(int portNumber) {
     /////SETUP OSC/////
     
     osc.setup(portNumber);
-    osc.setMessageName("/monkeySpit"); //index 0
+    osc.setMessageName("/midi"); //index 0
     
     osc.setMessageName("/sineCircles"); //index 1
     osc.setMessageName("/scanLines"); //index 2

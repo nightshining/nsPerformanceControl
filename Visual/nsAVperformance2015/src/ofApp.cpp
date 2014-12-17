@@ -9,7 +9,8 @@ void ofApp::setup(){
     ofSetFullscreen(false);
     
     visuals.setup(7400);
-    
+
+    bDebug = true;
     
 }
 
@@ -23,7 +24,11 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    if ( bDebug == true ) {
+        
     visuals.background();
+    
+    }
     
     visuals.triSquares();
 //    visuals.sineCircles();
@@ -40,6 +45,12 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
+    if ( key == 'd' ) {
+        
+        bDebug = !bDebug;
+        
+    }
+    
 }
 
 //--------------------------------------------------------------

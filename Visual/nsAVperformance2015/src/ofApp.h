@@ -23,6 +23,8 @@ class ofApp : public ofBaseApp{
     //nsOsc osc;
     nsVisuals visuals;
     
+    //Debug
+    bool bDebug;
     
     
 };
