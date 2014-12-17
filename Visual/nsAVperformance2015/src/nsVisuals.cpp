@@ -44,7 +44,6 @@ void nsVisuals::setup(int portNumber) {
     
     osc.setup(portNumber);
     osc.setMessageName("/midi"); //index 0
-    
     osc.setMessageName("/sineCircles"); //index 1
     osc.setMessageName("/scanLines"); //index 2
     osc.setMessageName("/sines"); //index 3
@@ -67,15 +66,19 @@ void nsVisuals::triSquares() {
     
     int squareAmt = 3;
     
+    
+    triAlpha = ofMap(osc.getKnob(0), 0.0, 1.0, 0, 255);
+    
+    
    for (int i = 0; i < squareAmt; i++) {
 
-        if ( osc.getFloatMessage(0) == 1.0 ) {
-       
-            float speed = 5;
-       
-           triAlpha = ofMap(sin(i + ofGetElapsedTimef() * speed) * 255, -255, 255, 0, 255);
-        
-       }
+//        if ( osc.getFloatMessage(0) == 1.0 ) {
+//       
+//            float speed = 5;
+//       
+//           triAlpha = ofMap(sin(i + ofGetElapsedTimef() * speed) * 255, -255, 255, 0, 255);
+//        
+//       }
 
         ofPushStyle(); {
 
@@ -92,7 +95,7 @@ void nsVisuals::triSquares() {
         
     }
     
-    triAlpha -= 5;
+    //triAlpha -= 5;
 }
 
 void nsVisuals::sineCircles() {

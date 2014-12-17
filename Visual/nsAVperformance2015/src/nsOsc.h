@@ -12,11 +12,21 @@ public:
     void update();
     void setMessageName(string uniqueName);
     float getFloatMessage(int getIndex); //This is to set local variables to incoming float connected to whatever name I set
+    
+    float getKnob(int index);
+    float getSlider(int index);
+    float getPad(int index);
 
-  
+
 private:
     
     ofxOscReceiver receiver;
     vector <string> messageName;
     vector <float> receiveMessage;
+    
+    vector <float> knobMessage;
+    vector <float> sliderMessage;
+    vector <float> padMessage;
+    
+    
 };

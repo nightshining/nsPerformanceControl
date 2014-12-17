@@ -15,7 +15,18 @@ nsOsc::~nsOsc() {
 void nsOsc::setup(int port){
   
     receiver.setup(port);
-
+    
+    int totalPad = 16;
+    int totalKnob = 8;
+    int totalSlider = 6;
+    
+    
+    knobMessage.resize(totalKnob);
+    sliderMessage.resize(totalSlider);
+    padMessage.resize(totalPad);
+    
+    
+    
 }
 
 void nsOsc::update() {
@@ -34,6 +45,47 @@ void nsOsc::update() {
             
             }
         }
+        
+        
+        ofxOscMessage knob;
+        
+        receiver.getNextMessage(&knob);
+        
+        for ( int j = 0; j < knobMessage.size(); j++ ) {
+            
+        if ( knob.getAddress() == "/knob/" + ofToString(j)) {
+            
+            knobMessage[j] = knob.getArgAsFloat(0);
+            
+            }
+        }
+        
+        ofxOscMessage slider;
+        
+        receiver.getNextMessage(&slider);
+        
+        for ( int k = 0; k < knobMessage.size(); k++ ) {
+            
+            if ( slider.getAddress() == "/slider/" + ofToString(k)) {
+                
+                sliderMessage[k] = slider.getArgAsFloat(0);
+                
+            }
+        }
+        
+        ofxOscMessage pad;
+        
+        receiver.getNextMessage(&pad);
+        
+        for ( int l = 0; l < padMessage.size(); l++ ) {
+            
+            if ( pad.getAddress() == "/pad/" + ofToString(l)) {
+                
+                padMessage[l] = pad.getArgAsFloat(0);
+                
+            }
+        }
+        
         
     }
 
@@ -56,6 +108,21 @@ float nsOsc::getFloatMessage(int getIndex) {
     
 }
 
+float nsOsc::getKnob(int index) {
+    
+    return knobMessage[index];
+}
+
+
+float nsOsc::getSlider(int index) {
+    
+    return sliderMessage[index];
+}
+
+float nsOsc::getPad(int index) {
+    
+    return padMessage[index];
+}
 
 
 
