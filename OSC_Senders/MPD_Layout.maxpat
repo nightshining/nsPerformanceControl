@@ -1276,8 +1276,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 794.0, 569.0, 67.0, 18.0 ],
-					"text" : "/knob/5 $1"
+					"patching_rect" : [ 794.0, 569.0, 69.0, 18.0 ],
+					"text" : "/slider/5 $1"
 				}
 
 			}
@@ -1291,8 +1291,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 795.0, 545.25, 67.0, 18.0 ],
-					"text" : "/knob/4 $1"
+					"patching_rect" : [ 795.0, 545.25, 69.0, 18.0 ],
+					"text" : "/slider/4 $1"
 				}
 
 			}
@@ -4206,16 +4206,16 @@
 ,
 									"patching_rect" : [ 147.5, 443.0, 63.0, 20.0 ],
 									"saved_object_attributes" : 									{
-										"default_fontface" : 0,
-										"tags" : "",
-										"digest" : "",
-										"default_fontname" : "Arial",
 										"fontname" : "Arial",
+										"tags" : "",
 										"default_fontsize" : 12.0,
 										"description" : "",
 										"globalpatchername" : "",
 										"fontface" : 0,
-										"fontsize" : 12.0
+										"fontsize" : 12.0,
+										"default_fontface" : 0,
+										"digest" : "",
+										"default_fontname" : "Arial"
 									}
 ,
 									"text" : "p padMidi"
@@ -5544,16 +5544,16 @@
 ,
 					"patching_rect" : [ 9.0, 465.0, 68.0, 20.0 ],
 					"saved_object_attributes" : 					{
-						"default_fontface" : 0,
-						"tags" : "",
-						"digest" : "",
-						"default_fontname" : "Arial",
 						"fontname" : "Arial",
+						"tags" : "",
 						"default_fontsize" : 12.0,
 						"description" : "",
 						"globalpatchername" : "",
 						"fontface" : 0,
-						"fontsize" : 12.0
+						"fontsize" : 12.0,
+						"default_fontface" : 0,
+						"digest" : "",
+						"default_fontname" : "Arial"
 					}
 ,
 					"text" : "p midiData"
