@@ -59,7 +59,7 @@ void nsOsc::update() {
             }
         }
         
-        for ( int k = 0; k < knobMessage.size(); k++ ) {
+        for ( int k = 0; k < sliderMessage.size(); k++ ) {
             
             if ( message.getAddress() == "/slider/" + ofToString(k)) {
                 
