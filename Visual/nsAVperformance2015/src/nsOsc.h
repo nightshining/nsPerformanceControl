@@ -16,7 +16,10 @@ public:
     float getKnob(int index);
     float getSlider(int index);
     float getPad(int index);
-
+    
+    void debugSliders();
+    void debugKnobs();
+    void debugPads();
 
 private:
     
@@ -26,7 +29,7 @@ private:
     
     vector <float> knobMessage;
     vector <float> sliderMessage;
-    vector <float> padMessage;
+    vector <int> padMessage;
     
     
 };

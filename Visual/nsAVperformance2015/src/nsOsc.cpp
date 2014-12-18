@@ -25,13 +25,26 @@ void nsOsc::setup(int port){
     sliderMessage.resize(totalSlider);
     padMessage.resize(totalPad);
     
+    for (int i = 0; i < knobMessage.size(); i++) {
+    
+        knobMessage[i] = 0.0;
+        
+    }
+    
+    for (int i = 0; i < padMessage.size(); i++) {
+        padMessage[i] = 0.0;
+    }
+    
+    for (int i = 0; i < sliderMessage.size(); i++) {
+        sliderMessage[i] = 0.0;
+    }
     
     
 }
 
 void nsOsc::update() {
     
-    while(receiver.hasWaitingMessages()){
+    while(receiver.hasWaitingMessages()) {
         
         ofxOscMessage message;
         
@@ -46,48 +59,35 @@ void nsOsc::update() {
             }
         }
         
-        
-        ofxOscMessage knob;
-        
-        receiver.getNextMessage(&knob);
+        for ( int k = 0; k < knobMessage.size(); k++ ) {
+            
+            if ( message.getAddress() == "/slider/" + ofToString(k)) {
+                
+                sliderMessage[k] = message.getArgAsFloat(0);
+                
+            }
+        }
         
         for ( int j = 0; j < knobMessage.size(); j++ ) {
             
-        if ( knob.getAddress() == "/knob/" + ofToString(j)) {
+        if ( message.getAddress() == "/knob/" + ofToString(j)) {
             
-            knobMessage[j] = knob.getArgAsFloat(0);
+            knobMessage[j] = message.getArgAsFloat(0);
             
             }
         }
-        
-        ofxOscMessage slider;
-        
-        receiver.getNextMessage(&slider);
-        
-        for ( int k = 0; k < knobMessage.size(); k++ ) {
-            
-            if ( slider.getAddress() == "/slider/" + ofToString(k)) {
-                
-                sliderMessage[k] = slider.getArgAsFloat(0);
-                
-            }
-        }
-        
-        ofxOscMessage pad;
-        
-        receiver.getNextMessage(&pad);
         
         for ( int l = 0; l < padMessage.size(); l++ ) {
             
-            if ( pad.getAddress() == "/pad/" + ofToString(l)) {
+            if ( message.getAddress() == "/pad/" + ofToString(l)) {
                 
-                padMessage[l] = pad.getArgAsFloat(0);
+                padMessage[l] = message.getArgAsInt32(0);
                 
             }
         }
+
         
-        
-    }
+    } //ending bracket for while loop
 
 }
 
@@ -122,6 +122,39 @@ float nsOsc::getSlider(int index) {
 float nsOsc::getPad(int index) {
     
     return padMessage[index];
+}
+
+
+void nsOsc::debugSliders() {
+    
+    for (int i = 0; i < sliderMessage.size(); i++) {
+        
+        ofDrawBitmapString("Sliders: " + ofToString(i) + " " + ofToString(sliderMessage[i]), ofGetWidth() * .05, i * 10 + ofGetHeight() * .10);
+        
+    }
+    
+}
+
+
+void nsOsc::debugKnobs() {
+    
+    for (int i = 0; i < knobMessage.size(); i++) {
+        
+        ofDrawBitmapString("Knobs: " + ofToString(i) + " " + ofToString(knobMessage[i]), ofGetWidth() * .20, i * 10 + ofGetHeight() * .10);
+        
+    }
+    
+}
+
+
+void nsOsc::debugPads() {
+    
+    for (int i = 0; i < padMessage.size(); i++) {
+        
+        ofDrawBitmapString("Pads: " + ofToString(i) + " " + ofToString(padMessage[i]), ofGetWidth() * .40, i * 10 + ofGetHeight() * .10);
+        
+    }
+    
 }
 
 

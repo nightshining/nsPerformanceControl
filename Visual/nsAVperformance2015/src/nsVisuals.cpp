@@ -67,7 +67,7 @@ void nsVisuals::triSquares() {
     int squareAmt = 3;
     
     
-    triAlpha = ofMap(osc.getKnob(0), 0.0, 1.0, 0, 255);
+    triAlpha = ofMap(osc.getKnob(2), 0.0, 1.0, 0, 255);
     
     
    for (int i = 0; i < squareAmt; i++) {
@@ -400,6 +400,10 @@ void nsVisuals::background() {
     panel(left);
     panel(center);
     panel(right);
+    
+    osc.debugPads();
+    osc.debugKnobs();
+    osc.debugSliders();
     
 }
 

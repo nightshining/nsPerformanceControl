@@ -28,6 +28,7 @@ void ofApp::draw(){
         
     visuals.background();
     
+    
     }
     
     visuals.triSquares();
