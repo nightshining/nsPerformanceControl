@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "nsOsc.h"
+#include "ofxAssimpModelLoader.h"
 
 
 class nsVisuals {
@@ -24,7 +25,7 @@ public:
     void noiseSquares(ofVec2f position);
     void waves();
     void generativeSphere();
-    
+    void deformedMesh();
     
     
 private:
@@ -67,7 +68,10 @@ private:
     float sphereCounter, sphereAlpha;
 
     
-    
+    //deformedMesh
+    ofxAssimpModelLoader model;
+    vector<float> modelPosition;
+
     
     
     

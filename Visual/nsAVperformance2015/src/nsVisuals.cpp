@@ -39,6 +39,14 @@ void nsVisuals::setup(int portNumber) {
         verticalAlpha[i] = 0.0;
     }
     
+    model.loadModel("3d/rock.3ds");
+    model.setPosition(0,0,0);
+
+    modelPosition.resize(3);
+    modelPosition[0] = .25;
+    modelPosition[1] = .50;
+    modelPosition[2] = .75;
+    
     
     /////SETUP OSC/////
     
@@ -391,6 +399,61 @@ void nsVisuals::generativeSphere() {
     }
 
 }
+
+void nsVisuals::deformedMesh() {
+
+    //get the model attributes we need
+    ofVec3f scale = model.getScale();
+    ofVec3f position = ofVec3f(center);
+    
+    float normalizedScale = model.getNormalizedScale() * .45;
+    ofVboMesh mesh = model.getMesh(0);
+
+    ofxAssimpMeshHelper& meshHelper = model.getMeshHelper( 0 );
+    
+    ofPushMatrix();
+    ofPushMatrix();
+    
+    if ( osc.getPad(0) == 1) {
+        
+        ofTranslate(position.x * modelPosition[ofRandom(3)], position.y);
+
+    } else {
+        
+        ofTranslate(position);
+
+    }
+    ofRotate(ofMap(osc.getKnob(0), 0.0, 1.0, 0, ofGetWidth()), 1, 1, 1);
+    ofRotate(90,1,1,1);
+    
+    
+    ofScale(normalizedScale, normalizedScale, normalizedScale);
+    ofScale(scale.x,scale.y,scale.z);
+    
+    //modify mesh with some noise
+    float liquidness = 5;
+    float amplitude = 5 / 100.0;
+    float speedDampen = 5;
+    
+    vector<ofVec3f>& verts = mesh.getVertices();
+    
+    for(unsigned int i = 0; i < verts.size(); i++){
+        verts[i].x += ofSignedNoise(verts[i].x/liquidness, verts[i].y/liquidness,verts[i].z/liquidness, ofGetElapsedTimef()/speedDampen)*amplitude;
+        verts[i].y += ofSignedNoise(verts[i].z/liquidness, verts[i].x/liquidness,verts[i].y/liquidness, ofGetElapsedTimef()/speedDampen)*amplitude;
+        verts[i].z += ofSignedNoise(verts[i].y/liquidness, verts[i].z/liquidness,verts[i].x/liquidness, ofGetElapsedTimef()/speedDampen)*amplitude;
+        
+
+    }
+    ofSetColor(ofColor::white, 100);
+
+    mesh.drawWireframe();
+    
+    ofPopMatrix();
+    ofPopStyle();
+
+    
+}
+
 
 //// THIS IS CODE FOR THE THREE BACKGROUND PANELS ////
 

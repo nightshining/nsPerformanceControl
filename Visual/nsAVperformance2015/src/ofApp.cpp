@@ -7,6 +7,8 @@ void ofApp::setup(){
     ofEnableAlphaBlending();
     ofEnableSmoothing();
     ofSetFullscreen(false);
+    ofEnableDepthTest();
+
     
     visuals.setup(7400);
 
@@ -27,13 +29,23 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    ///DEBUG///
+    
     if ( bDebug == true ) {
         
+    ofPushStyle();
+    ofPushMatrix();
+    ofSetColor(ofColor::hotPink);
     visuals.background();
-    dCounter();
+    ofPopMatrix();
+    ofPopStyle();
     
+    dCounter();
+        
     
     }
+    
+    ///CONTROL///
     
     if (counter == 0) {
     
@@ -42,6 +54,9 @@ void ofApp::draw(){
         visuals.noiseSquares(getRight());
 
 
+    } else if ( counter == 1 ) {
+        
+        visuals.deformedMesh();
     }
     
 //    visuals.sineCircles();

@@ -127,25 +127,26 @@ float nsOsc::getPad(int index) {
 
 void nsOsc::debugSliders() {
     
+
     for (int i = 0; i < sliderMessage.size(); i++) {
         
         ofDrawBitmapString("Sliders: " + ofToString(i) + " " + ofToString(sliderMessage[i]), ofGetWidth() * .05, i * 10 + ofGetHeight() * .10);
         
     }
+
     
 }
 
 
 void nsOsc::debugKnobs() {
-    
+   
     for (int i = 0; i < knobMessage.size(); i++) {
         
         ofDrawBitmapString("Knobs: " + ofToString(i) + " " + ofToString(knobMessage[i]), ofGetWidth() * .20, i * 10 + ofGetHeight() * .10);
         
     }
-    
+  
 }
-
 
 void nsOsc::debugPads() {
     
