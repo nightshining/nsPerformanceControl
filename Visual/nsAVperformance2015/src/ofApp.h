@@ -26,5 +26,18 @@ class ofApp : public ofBaseApp{
     //Debug
     bool bDebug;
     
+    ofVec2f getLeft();
+    ofVec2f getCenter();
+    ofVec2f getRight();
     
+    int counter, counterMax;
+    
+    void dCounter() {
+        
+        ofPushStyle();
+        ofSetColor(0, 255, 255);
+        ofDrawBitmapString("Counter: " + ofToString(counter), 25, 25);
+        ofPopStyle();
+        
+    }
 };

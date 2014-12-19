@@ -43,7 +43,7 @@ void nsVisuals::setup(int portNumber) {
     /////SETUP OSC/////
     
     osc.setup(portNumber);
-    osc.setMessageName("/midi"); //index 0
+    osc.setMessageName("/triSquares"); //index 0
     osc.setMessageName("/sineCircles"); //index 1
     osc.setMessageName("/scanLines"); //index 2
     osc.setMessageName("/sines"); //index 3
@@ -62,30 +62,27 @@ void nsVisuals::update() {
   
 }
 
-void nsVisuals::triSquares() {
+void nsVisuals::triSquares(ofVec2f position) {
     
     int squareAmt = 3;
-    
-    
-    triAlpha = ofMap(osc.getKnob(2), 0.0, 1.0, 0, 255);
     
     
    for (int i = 0; i < squareAmt; i++) {
 
 //        if ( osc.getFloatMessage(0) == 1.0 ) {
-//       
-//            float speed = 5;
-//       
-//           triAlpha = ofMap(sin(i + ofGetElapsedTimef() * speed) * 255, -255, 255, 0, 255);
-//        
-//       }
+       if ( osc.getPad(1) == 1){
+            float speed = 5;
+       
+           triAlpha = ofMap(sin(i + ofGetElapsedTimef() * speed) * 255, -255, 255, 0, 255);
+        
+       }
 
         ofPushStyle(); {
 
         ofPushMatrix(); {
             
         ofSetRectMode(OF_RECTMODE_CENTER);
-        ofTranslate(right.x * 0.93, right.y);
+        ofTranslate(position.x * 0.89, position.y);
         ofSetColor(objectColor, triAlpha);
         ofRect(i * 59, 0, 50, 100);
         
@@ -95,7 +92,7 @@ void nsVisuals::triSquares() {
         
     }
     
-    //triAlpha -= 5;
+    triAlpha -= 5;
 }
 
 void nsVisuals::sineCircles() {
@@ -261,7 +258,7 @@ void nsVisuals::verticalCircles() {
     
 }
 
-void nsVisuals::noiseSquares() {
+void nsVisuals::noiseSquares( ofVec2f position ) {
     
     for (int j = 0; j < height; j+=100) {
         
@@ -273,19 +270,21 @@ void nsVisuals::noiseSquares() {
         }
         
         
-        if ( osc.getFloatMessage(5)) {
+        if ( osc.getPad(0) ) {
             
             squareNoise = ofRandom(0, 255);
             
         }
         
-        
+        ofPushStyle();
         ofPushMatrix();
-        ofTranslate(center);
-        ofScale(scale, scale);
+        ofSetRectMode(OF_RECTMODE_CENTER);
+        ofTranslate(position.x, position.y * .75);
+        ofScale(scale * .4, scale * .55);
         ofSetColor(objectColor, squareNoise);
         ofRect(0, j, width, 75);
         ofPopMatrix();
+        ofPopStyle();
     }
     
 }

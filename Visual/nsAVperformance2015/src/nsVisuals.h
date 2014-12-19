@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "nsOsc.h"
 
+
 class nsVisuals {
     
 public:
@@ -15,14 +16,16 @@ public:
     //visual content
     void background();
     
-    void triSquares();
+    void triSquares(ofVec2f position);
     void sineCircles();
     void scanLines();
     void sines();
     void verticalCircles();
-    void noiseSquares();
+    void noiseSquares(ofVec2f position);
     void waves();
     void generativeSphere();
+    
+    
     
 private:
     
