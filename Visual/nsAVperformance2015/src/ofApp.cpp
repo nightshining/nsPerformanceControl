@@ -35,7 +35,7 @@ void ofApp::draw(){
         
     ofPushStyle();
     ofPushMatrix();
-    ofSetColor(ofColor::hotPink);
+    ofSetColor(ofColor::white);
     visuals.background();
     ofPopMatrix();
     ofPopStyle();
@@ -88,7 +88,7 @@ void ofApp::keyPressed(int key){
     
     }
     
-    if ( counter <= 0 ) {
+    if ( counter < 0 ) {
         
         counter = 0;
         

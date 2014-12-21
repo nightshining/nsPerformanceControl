@@ -43,16 +43,16 @@ void nsVisuals::setup(int portNumber) {
     model.setPosition(0,0,0);
 
     modelPosition.resize(3);
-    modelPosition[0] = .25;
-    modelPosition[1] = .50;
-    modelPosition[2] = .75;
+    meshAlpha = 255;
+    meshRumble = 0.0;
+    randomMeshPosition = 0;
     
     
     /////SETUP OSC/////
     
     osc.setup(portNumber);
     osc.setMessageName("/triSquares"); //index 0
-    osc.setMessageName("/sineCircles"); //index 1
+    osc.setMessageName("/deformedMesh"); //index 1
     osc.setMessageName("/scanLines"); //index 2
     osc.setMessageName("/sines"); //index 3
     osc.setMessageName("/verticalCircles"); //index 4
@@ -402,56 +402,88 @@ void nsVisuals::generativeSphere() {
 
 void nsVisuals::deformedMesh() {
 
+    modelPosition[0] = left;
+    modelPosition[1] = center;
+    modelPosition[2] = right;
+    
     //get the model attributes we need
     ofVec3f scale = model.getScale();
-    ofVec3f position = ofVec3f(center);
     
     float normalizedScale = model.getNormalizedScale() * .45;
     ofVboMesh mesh = model.getMesh(0);
 
     ofxAssimpMeshHelper& meshHelper = model.getMeshHelper( 0 );
     
-    ofPushMatrix();
+    ofPushStyle();
     ofPushMatrix();
     
-    if ( osc.getPad(0) == 1) {
+    if ( osc.getFloatMessage(1) == 1.0 ) {
         
-        ofTranslate(position.x * modelPosition[ofRandom(3)], position.y);
-
+        randomMeshPosition = ofRandom(3);
+        
+        ofTranslate(modelPosition[randomMeshPosition]);
+        meshAlpha = 255;
+        
     } else {
         
-        ofTranslate(position);
-
+        ofTranslate(modelPosition[randomMeshPosition]);
+        
     }
-    ofRotate(ofMap(osc.getKnob(0), 0.0, 1.0, 0, ofGetWidth()), 1, 1, 1);
+
+    ofRotate(ofMap(osc.getKnob(0), 0.0, 1.0, 0, ofGetWidth()) + ofGetElapsedTimef() * 5.0, 1, 1, 1);
     ofRotate(90,1,1,1);
     
     
     ofScale(normalizedScale, normalizedScale, normalizedScale);
     ofScale(scale.x,scale.y,scale.z);
     
+   
     //modify mesh with some noise
     float liquidness = 5;
-    float amplitude = 5 / 100.0;
+    float amplitude = ofMap(osc.getKnob(3), 0.0, 1.0, 10.0, 300.0) / 100.0;
     float speedDampen = 5;
+    
     
     vector<ofVec3f>& verts = mesh.getVertices();
     
     for(unsigned int i = 0; i < verts.size(); i++){
-        verts[i].x += ofSignedNoise(verts[i].x/liquidness, verts[i].y/liquidness,verts[i].z/liquidness, ofGetElapsedTimef()/speedDampen)*amplitude;
-        verts[i].y += ofSignedNoise(verts[i].z/liquidness, verts[i].x/liquidness,verts[i].y/liquidness, ofGetElapsedTimef()/speedDampen)*amplitude;
-        verts[i].z += ofSignedNoise(verts[i].y/liquidness, verts[i].z/liquidness,verts[i].x/liquidness, ofGetElapsedTimef()/speedDampen)*amplitude;
         
-
+        float liquidMesh = ofSignedNoise(verts[i].x/liquidness, verts[i].y/liquidness,verts[i].z/liquidness, ofGetElapsedTimef()/speedDampen) * amplitude;
+        
+        if ( osc.getPad(12) == 1 || osc.getPad(13) == 1 || osc.getPad(14) == 1 || osc.getPad(15) == 1) {
+            
+            meshRumble = ofSignedNoise(verts[i].x/liquidness, verts[i].y * ofGetElapsedTimef() * 200,verts[i].z/liquidness, ofGetElapsedTimef()/speedDampen) * amplitude;
+            
+        } else {
+            
+            meshRumble = liquidMesh;
+            
+        }
+        
+        verts[i].x += liquidMesh;
+        verts[i].y += meshRumble;
+        verts[i].z += liquidMesh;
+        
+        ofColor c = ofColor::white;
+        //c.a = ofMap(i, 0, verts.size(), 50, 180) + meshAlpha;
+        c.a = ofNoise(i) * meshAlpha;
+        //c.a = ofMap(i, 0, verts.size(), 50, 180);
+        mesh.addColor(c);
+        
     }
-    ofSetColor(ofColor::white, 100);
 
     mesh.drawWireframe();
+
     
     ofPopMatrix();
     ofPopStyle();
 
+    meshAlpha -= 5.0;
     
+    if ( meshAlpha <= 0 ) {
+        
+        meshAlpha = 0;
+    }
 }
 
 

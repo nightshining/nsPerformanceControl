@@ -70,7 +70,9 @@ private:
     
     //deformedMesh
     ofxAssimpModelLoader model;
-    vector<float> modelPosition;
+    vector<ofPoint> modelPosition;
+    int randomMeshPosition;
+    float meshAlpha, meshRumble;
 
     
     
