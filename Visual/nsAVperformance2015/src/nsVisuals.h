@@ -23,8 +23,8 @@ public:
     void sines();
     void verticalCircles();
     void noiseSquares(ofVec2f position);
-    void waves();
-    void generativeSphere();
+    void waves(float posX, float posY);
+    void generativeSphere(ofVec2f position);
     void deformedMesh();
     
     
@@ -65,7 +65,8 @@ private:
     float wavesAlpha, wavesFreq, wavesMax, counter;
     
     //generativeSphere
-    float sphereCounter, sphereAlpha;
+    float sphereCounter, boxAlpha;
+    vector <float> sphereAlpha;
 
     
     //deformedMesh

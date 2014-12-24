@@ -14,7 +14,7 @@ void ofApp::setup(){
 
     bDebug = true;
     
-    counter = 0;
+    counter = 2;
     counterMax = 10;
     
 }
@@ -57,6 +57,13 @@ void ofApp::draw(){
     } else if ( counter == 1 ) {
         
         visuals.deformedMesh();
+        
+    } else if ( counter == 2 ) {
+        
+        float centerWaves = 1.25;
+        visuals.waves(getLeft().x * 0.0, getLeft().y * centerWaves);
+        visuals.waves(getRight().x, getRight().y * centerWaves);
+        visuals.generativeSphere(getCenter());
     }
     
 //    visuals.sineCircles();

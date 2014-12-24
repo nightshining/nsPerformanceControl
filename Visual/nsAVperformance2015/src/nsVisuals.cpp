@@ -27,8 +27,9 @@ void nsVisuals::setup(int portNumber) {
     wavesMax = 100;
     wavesFreq = 0.0;
     wavesAlpha = 0.0;
-    sphereAlpha = 0.0;
+    boxAlpha = 0.0;
     sphereCounter = 0.003;
+    sphereAlpha.resize(50);
     
     float verticalCircleSize = width * height;
     
@@ -297,7 +298,7 @@ void nsVisuals::noiseSquares( ofVec2f position ) {
     
 }
 
-void nsVisuals::waves() {
+void nsVisuals::waves(float posX, float posY) {
     
     wavesMax -= 10;
     
@@ -306,24 +307,21 @@ void nsVisuals::waves() {
     }
 
     ofPushStyle(); {
-
+        ofSetLineWidth(.05);
+        
+    for (int j = 0; j < 75; j++){
+        
+        //Move waves
+        wavesMax = osc.getKnob(6) * 500;
+        wavesFreq = sin(ofGetElapsedTimef() * 5) * wavesMax - sin(ofGetElapsedTimef() * 5) * 25;
     
-    for (int j = 0; j < 50; j+=2){
         
-        wavesFreq = sin(ofGetElapsedTimef() * 5) * wavesMax - sin(ofGetElapsedTimef() * 5) * 20;
-        
-        if (osc.getFloatMessage(6)) {
-            wavesMax = 255;
-        }
-        
+        wavesAlpha = ofMap(sin(j) * 255, -255, 255, 230, 255);
         
         ofPushMatrix();
-        wavesAlpha = ofNoise(j) * 200;
-       
-        
-        ofTranslate(left);
-        ofScale(scale, scale);
-        ofTranslate(0, -j);
+        ofTranslate(posX, posY);
+        ofScale(scale, 1.0);
+        ofTranslate(0, -j * 3);
 
         ofSetColor(objectColor, wavesAlpha);
         ofNoFill();
@@ -333,12 +331,12 @@ void nsVisuals::waves() {
         ofCurveVertex(0, 0);
         ofCurveVertex(0, 0);
         
-        if (j == 4) {
+        if (j == 2) {
             ofSetColor(255, 0, 100, 200);
         }
         
-        for(int i = 0; i < 50; i++) {
-            ofCurveVertex(width * .1 + i * 10, ofNoise(i + ofGetElapsedTimef() * 5) * cos(ofGetElapsedTimef() * 5) * wavesFreq);
+        for(int i = 0; i < 25; i++) {
+            ofCurveVertex( width * .1 + i * 15, ofNoise(i + ofGetElapsedTimef() * ofMap(osc.getKnob(7), 0.0, 1.0, 5.0, 200.0)) * cos(ofGetElapsedTimef() * 5) * wavesFreq);
         }
         ofCurveVertex(width * .5, 0);
         ofCurveVertex(width * .5, 0);
@@ -347,6 +345,7 @@ void nsVisuals::waves() {
         
         ofEndShape(false);
         ofPopMatrix();
+
     }
     
     } ofPopStyle();
@@ -355,47 +354,82 @@ void nsVisuals::waves() {
     
 }
 
-void nsVisuals::generativeSphere() {
+void nsVisuals::generativeSphere(ofVec2f position) {
     
     for (int i = 0; i < 50; i++) {
+        
         ofPushStyle();
         ofSetCircleResolution(60);
         ofPushMatrix();
         ofTranslate(center);
         ofScale(scale, scale);
-        float move = sphereCounter * (i + 20);
-        ofSetColor(255, move);
-        ofNoFill();
-        if(i == 25) {
-        ofSetColor(0, 200, 200, 80);
-        ofRotateX(ofGetElapsedTimef() * 5);
-        }
         
+        float move = sphereCounter * (i + 20);
         ofRotateX(move);
         ofRotateY(move);
-        ofCircle(0, 0, 200);
+        
+        if (osc.getFloatMessage(7) == 1.0) {
+        sphereCounter = ofNoise(ofGetElapsedTimef() * ofRandom(3, 5)) * osc.getFloatMessage(7) * 3.0;
+        
+        for (int a = 0; a < sphereAlpha.size(); a++ ) {
+            sphereAlpha[a] = ofNoise(a) * 200;
+        }
+
+        } else {
+      
+        for (int a = 0; a < sphereAlpha.size(); a++ ) {
+            
+        ofSetColor(255, sphereAlpha[a]);
+        ofNoFill();
+            
+            if ( i == 45 ) {
+                ofSetColor(0, 255, 200, sphereAlpha[a]);
+                ofNoFill();
+            }
+            
+        }
+            
+       
+        ofCircle(0, 0, width * .25);
         ofPopMatrix();
         ofPopStyle();
+            
+            for (int a = 0; a < sphereAlpha.size(); a++) {
+                
+                sphereAlpha[a] -= move * .005;
+                
+                if ( sphereAlpha[a] <= 0.0 ) {
+                    
+                    sphereAlpha[a] = 0.0;
+                    
+                }
+            }
+
+        }
     }
     
     ofPushStyle();
-    ofSetRectMode(OF_RECTMODE_CENTER);
     ofPushMatrix();
-    ofSetColor(255, sphereAlpha);
+    ofSetRectMode(OF_RECTMODE_CENTER);
+    ofSetColor(255, boxAlpha);
     ofFill();
     ofTranslate(center);
-    //ofScale(scale, scale);
-    ofRect(0, 0, 200, 200);
+    ofRect(0, 0, width * .3, height * .45 );
     ofPopMatrix();
     ofPopStyle();
     
-    sphereAlpha -= 3.0;
+    if ( osc.getFloatMessage(7) == 1 && osc.getSlider(5) == 0.0 && ofRandomf() > .5) {
+
+    boxAlpha = ofRandom(50, 255);
+        
+    }
     
-    if ( osc.getFloatMessage(7) ) {
+    boxAlpha -= 5.0;
+    
+  
+    if (boxAlpha <= 0.0 ) {
         
-        sphereAlpha = ofRandom(50, 255);
-        sphereCounter = ofNoise(ofGetElapsedTimef() * 3);
-        
+        boxAlpha = 0.0;
     }
 
 }
