@@ -31,13 +31,8 @@ class ofApp : public ofBaseApp{
     ofVec2f getRight();
     
     int counter, counterMax;
+    void dCounter();
     
-    void dCounter() {
-        
-        ofPushStyle();
-        ofSetColor(0, 255, 255);
-        ofDrawBitmapString("Counter: " + ofToString(counter), 25, 25);
-        ofPopStyle();
-        
-    }
+    ofFbo fbo;
+   
 };

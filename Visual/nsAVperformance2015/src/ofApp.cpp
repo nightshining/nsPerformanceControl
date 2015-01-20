@@ -16,6 +16,12 @@ void ofApp::setup(){
     
     counter = 0;
     counterMax = 10;
+ 
+    fbo.allocate(400, 400, GL_RGBA);
+    fbo.begin();
+    ofClear(255, 255, 255, 0);
+    fbo.end();
+    
     
 }
 
@@ -46,34 +52,42 @@ void ofApp::draw(){
     }
     
     ///CONTROL///
-    
-    if (counter == 0) {
-    
-        visuals.triSquares(getCenter());
-        visuals.noiseSquares(getLeft());
-        visuals.noiseSquares(getRight());
-
-
-    } else if ( counter == 1 ) {
-        
-        visuals.deformedMesh();
-        
-    } else if ( counter == 2 ) {
-        
-        float centerWaves = 1.25;
-        visuals.waves(getLeft().x * 0.0, getLeft().y * centerWaves);
-        visuals.waves(getRight().x, getRight().y * centerWaves);
-        visuals.generativeSphere(getCenter());
-    
-    } else if ( counter == 3 ) {
-        
-        visuals.organismDraw(getLeft(), .5);
-        visuals.organismDraw(getCenter(), .7);
-        visuals.organismDraw(getRight(), .45);
-        
+ 
+    switch (counter) {
+        case 1:
+            visuals.triSquares(getCenter());
+            visuals.noiseSquares(getLeft());
+            visuals.noiseSquares(getRight());
+            break;
+        case 2:
+           visuals.deformedMesh();
+            break;
+        case 3: {
+            float centerWaves = 1.25;
+            visuals.waves(getLeft().x * 0.0, getLeft().y * centerWaves);
+            visuals.waves(getRight().x, getRight().y * centerWaves);
+            visuals.generativeSphere(getCenter());
+            break;
+        }
+        case 4:
+            visuals.organismDraw(getLeft(), .75, 0.5);
+            visuals.organismDraw(getRight(), .65, 5.0);
+            break;
+        default:
+            break;
     }
     
-    //visuals.videoPlayback();
+  
+    fbo.begin();
+    ofClear(255, 255, 255, 255);
+    ofSetColor(255, 0, 0);
+    ofCircle(50, 50, 100);
+    fbo.end();
+    
+    ofSetColor(255);
+    fbo.draw(0,0);
+
+   
     
 //    visuals.sineCircles();
 //    visuals.scanLines();
@@ -109,7 +123,9 @@ void ofApp::keyPressed(int key){
         
         counter = 0;
         
-    } else if ( counter >= counterMax ) {
+    }
+    
+    if ( counter >= counterMax ) {
         
         counter = counterMax;
         
@@ -136,6 +152,15 @@ ofVec2f ofApp::getRight() {
     ofVec2f setRight = ofVec2f(ofGetWidth() * .75, ofGetHeight() * .5);
 
     return setRight;
+    
+}
+
+void ofApp::dCounter() {
+    
+    ofPushStyle();
+    ofSetColor(0, 255, 255);
+    ofDrawBitmapString("Counter: " + ofToString(counter), 25, 25);
+    ofPopStyle();
     
 }
 
