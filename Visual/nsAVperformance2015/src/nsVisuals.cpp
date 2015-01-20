@@ -48,6 +48,21 @@ void nsVisuals::setup(int portNumber) {
     meshRumble = 0.0;
     randomMeshPosition = 0;
     
+    //vid.loadMovie("video/fingers.mov");
+    //videoAlpha = 200;
+    
+    nCurveVertices = 6;
+    
+    curveVertices.resize(nCurveVertices);
+    
+    
+    curveVertices[0].set(0, -65);
+    curveVertices[1].set(65, -80);
+    curveVertices[2].set(65, 25);
+    curveVertices[3].set(0, 75);
+    curveVertices[4].set(-65, 65);
+    curveVertices[5].set(-50, -65);
+    
     
     /////SETUP OSC/////
     
@@ -68,6 +83,8 @@ void nsVisuals::update() {
     osc.update();
     
     dynamicPositioning();
+    
+    //vid.update();
   
 }
 
@@ -520,7 +537,108 @@ void nsVisuals::deformedMesh() {
     }
 }
 
+void nsVisuals::organismDraw(ofVec2f pos, float scale) {
+    
+    ofPushStyle();
+    ofPushMatrix();
+    ofSetLineWidth(.01);
+    ofTranslate(pos);
+    ofScale(scale, scale);
+    
+    for ( float i = 0.0; i < 25.0; i++ ) {
+        ofPoint pos;
+        pos.set(ofGetWidth() * .5, -i + ofGetHeight() * .5 + sin(ofGetElapsedTimef() * 1.0) * 10.0);
+        
+        ofColor c;
+        if ( i == 0.0 ) {
+            c.set(220, ofNoise(ofGetElapsedTimef() * 1.5) * 255, 250);
+            ofFill();
+        } else {
+            c.set(ofColor::white);
+        }
+        int min = -13;
+        int max = 177;
+        c.a = ofMap(i, 0.0, 25.0, min, max);
+        float scale = ofMap(i, 0, 50.0, 0.001, 5.0) + ofNoise(ofGetElapsedTimef() * 0.55) * .50;
+        
+        float rotate = ofNoise(i + ofGetElapsedTimef() * .05) * 5.0;
+        float noiseSpeed = ofNoise(ofGetElapsedTimef()) * .50;
+        organism(pos, c, scale, rotate, noiseSpeed);
+        
+        //ofDrawBitmapString("Min: " + ofToString(min) + " Max: " + ofToString(max), 50, 50);
+    }
 
+    ofPopMatrix();
+    ofPopStyle();
+    
+}
+
+void nsVisuals::organism(ofPoint& pos, ofColor& c, float scale, float rotation, float noiseFreq) {
+    
+    ofPushStyle();
+    ofSetColor(c);
+    ofNoFill();
+    ofPushMatrix();
+    
+    //ofTranslate(pos);
+    ofRotateZ(ofGetElapsedTimef() * 4.0);
+    
+    ofScale( scale, scale );
+    ofRotateZ(rotation);
+    
+    ofBeginShape();
+    
+    for (int i = 0; i < nCurveVertices; i++){
+        
+        
+        float noise = ofNoise(i + ofGetElapsedTimef() * noiseFreq) * 50;
+        
+        
+        
+        if (i == 0){
+            ofCurveVertex(curveVertices[0].x, curveVertices[0].y); // we need to duplicate 0 for the curve to start at point 0
+            ofCurveVertex(curveVertices[0].x, curveVertices[0].y); // we need to duplicate 0 for the curve to start at point 0
+        } else if (i == nCurveVertices-1){
+            
+            ofCurveVertex(curveVertices[i].x, curveVertices[i].y + noise);
+            ofCurveVertex(curveVertices[0].x, curveVertices[0].y);	// to draw a curve from pt 6 to pt 0
+            ofCurveVertex(curveVertices[0].x, curveVertices[0].y);	// we duplicate the first point twice
+        } else {
+            ofCurveVertex(curveVertices[i].x, curveVertices[i].y + noise);
+        }
+        
+        
+        if ( i == 0 ) {
+            ofCircle(curveVertices[0].x, curveVertices[0].y, ofNoise(i + ofGetElapsedTimef() * 2.0) * 1.0);
+            
+        } else {
+            ofCircle(curveVertices[i].x, curveVertices[i].y + noise, ofNoise(i + ofGetElapsedTimef() * 2.0) * 1.0);
+        }
+        
+        
+    }
+    
+    ofEndShape();
+    ofPopMatrix();
+    ofPopStyle();
+    
+}
+
+
+
+void nsVisuals::videoPlayback() {
+    
+    ofPushStyle();
+    ofEnableAlphaBlending();
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofPushMatrix();
+    vid.setFrame(ofGetElapsedTimef() * 6.0);
+    ofSetColor(255, 255, 255, videoAlpha);
+    vid.draw(0,0, 500, 500);
+    ofPopMatrix();
+    ofPopStyle();
+    
+}
 //// THIS IS CODE FOR THE THREE BACKGROUND PANELS ////
 
 void nsVisuals::background() {

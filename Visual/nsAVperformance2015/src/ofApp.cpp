@@ -14,7 +14,7 @@ void ofApp::setup(){
 
     bDebug = true;
     
-    counter = 2;
+    counter = 0;
     counterMax = 10;
     
 }
@@ -64,13 +64,21 @@ void ofApp::draw(){
         visuals.waves(getLeft().x * 0.0, getLeft().y * centerWaves);
         visuals.waves(getRight().x, getRight().y * centerWaves);
         visuals.generativeSphere(getCenter());
+    
+    } else if ( counter == 3 ) {
+        
+        visuals.organismDraw(getLeft(), .5);
+        visuals.organismDraw(getCenter(), .7);
+        visuals.organismDraw(getRight(), .45);
+        
     }
+    
+    //visuals.videoPlayback();
     
 //    visuals.sineCircles();
 //    visuals.scanLines();
 //    visuals.sines();
 //    visuals.verticalCircles();
-//    visuals.waves();
 //   visuals.generativeSphere();
 
 }
@@ -89,7 +97,9 @@ void ofApp::keyPressed(int key){
         
         counter++;
         
-    } else if ( key == OF_KEY_DOWN ) {
+    }
+    
+    if ( key == OF_KEY_DOWN ) {
         
         counter--;
     

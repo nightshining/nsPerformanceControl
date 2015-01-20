@@ -26,7 +26,8 @@ public:
     void waves(float posX, float posY);
     void generativeSphere(ofVec2f position);
     void deformedMesh();
-    
+    void organismDraw(ofVec2f pos, float scale);
+    void videoPlayback();
     
 private:
     
@@ -40,6 +41,10 @@ private:
     float scale;
     ofPoint left, center, right;
     ofColor objectColor;
+    
+    //video
+    ofVideoPlayer vid;
+    float videoAlpha;
     
     //triSquare Vars
     float triAlpha;
@@ -75,8 +80,10 @@ private:
     int randomMeshPosition;
     float meshAlpha, meshRumble;
 
-    
-    
+    //Organism
+    int nCurveVertices;
+    vector<ofVec2f> curveVertices;
+    void organism(ofPoint& pos, ofColor& c, float scale, float rotation, float noiseAmt);
     
     
     
