@@ -27,7 +27,8 @@ public:
     void generativeSphere(ofVec2f position);
     void deformedMesh();
     void organismDraw(ofVec2f pos, float scale, float rotateSpeed);
-    void videoPlayback();
+    void texOrgDraw(ofVec2f position);
+
     
 private:
     
@@ -81,6 +82,28 @@ private:
     vector<ofVec2f> curveVertices;
     void organism(ofPoint& pos, ofColor& c, float scale, float rotation, float noiseAmt);
     float noiseOrganism;
+    
+    //texturedOrg
+    
+    ofSpherePrimitive texOrgSphere;
+    ofMesh texOrgMesh;
+    ofColor texOrgC;
+    ofImage texOrgImg;
+    
+    float texOrgScale, texOrgSpinX, texOrgSpinY;
+    int counterIndex;
+    
+    void texOrgMovement();
+    
+    ofSpherePrimitive sphereHUD;
+    ofMesh meshHUD;
+    void HUD(float rotateX, float rotateY);
+
+    
+    
+    
+    
+    
     
     
     

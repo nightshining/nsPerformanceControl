@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "nsVisuals.h"
 
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -33,6 +34,5 @@ class ofApp : public ofBaseApp{
     int counter, counterMax;
     void dCounter();
     
-    ofFbo fbo;
-   
+    
 };

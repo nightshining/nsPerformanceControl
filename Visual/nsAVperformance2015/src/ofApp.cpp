@@ -1,14 +1,16 @@
 #include "ofApp.h"
 
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-    ofBackground(ofColor::black);
+    ofBackground(5);
     ofEnableAlphaBlending();
-    ofEnableSmoothing();
     ofSetFullscreen(false);
     ofEnableDepthTest();
-
+    ofEnableNormalizedTexCoords();
+    ofDisableArbTex();
+    
     
     visuals.setup(7400);
 
@@ -16,19 +18,18 @@ void ofApp::setup(){
     
     counter = 0;
     counterMax = 10;
- 
-    fbo.allocate(400, 400, GL_RGBA);
-    fbo.begin();
-    ofClear(255, 255, 255, 0);
-    fbo.end();
     
     
+  
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
     visuals.update();
+    
+  
+    
     
 }
 
@@ -39,20 +40,20 @@ void ofApp::draw(){
     
     if ( bDebug == true ) {
         
-    ofPushStyle();
-    ofPushMatrix();
-    ofSetColor(ofColor::white);
-    visuals.background();
-    ofPopMatrix();
-    ofPopStyle();
-    
-    dCounter();
+        ofPushStyle();
+        ofPushMatrix();
+        ofSetColor(ofColor::white);
+        visuals.background();
+        ofPopMatrix();
+        ofPopStyle();
         
-    
+        dCounter();
+        
     }
     
+    
     ///CONTROL///
- 
+    
     switch (counter) {
         case 1:
             visuals.triSquares(getCenter());
@@ -60,7 +61,7 @@ void ofApp::draw(){
             visuals.noiseSquares(getRight());
             break;
         case 2:
-           visuals.deformedMesh();
+            visuals.deformedMesh();
             break;
         case 3: {
             float centerWaves = 1.25;
@@ -73,28 +74,15 @@ void ofApp::draw(){
             visuals.organismDraw(getLeft(), .75, 0.5);
             visuals.organismDraw(getRight(), .65, 5.0);
             break;
+        case 5:
+            visuals.texOrgDraw(getCenter());
+            break;
         default:
             break;
     }
     
-  
-    fbo.begin();
-    ofClear(255, 255, 255, 255);
-    ofSetColor(255, 0, 0);
-    ofCircle(50, 50, 100);
-    fbo.end();
-    
-    ofSetColor(255);
-    fbo.draw(0,0);
 
-   
     
-//    visuals.sineCircles();
-//    visuals.scanLines();
-//    visuals.sines();
-//    visuals.verticalCircles();
-//   visuals.generativeSphere();
-
 }
 
 

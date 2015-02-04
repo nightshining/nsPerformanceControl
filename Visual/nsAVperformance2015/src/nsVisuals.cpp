@@ -62,6 +62,42 @@ void nsVisuals::setup(int portNumber) {
     
     noiseOrganism = 0.0;
     
+    texOrgImg.loadImage("Texture/oak.jpg");
+    
+    ofPushStyle();
+    texOrgSphere.setResolution(6);
+    texOrgSphere.setPosition(0, 0, 0);
+    
+    texOrgMesh.setMode(OF_PRIMITIVE_POINTS);
+    texOrgMesh.setupIndicesAuto();
+    texOrgMesh = texOrgSphere.getMesh();
+    ofPopStyle();
+    
+    
+    texOrgScale = 7.0;
+    texOrgSpinX = 0.0;
+    texOrgSpinY = 0.0;
+    
+    counterIndex = 0;
+    
+    ofPushStyle();
+    sphereHUD.setResolution(45);
+    sphereHUD.setPosition(0,0,0);
+    sphereHUD.setScale(50);
+    
+    meshHUD.setupIndicesAuto();
+    meshHUD = sphereHUD.getMesh();
+    meshHUD.setMode(OF_PRIMITIVE_POINTS);
+    
+    for (int i = 0; i < 200; i++){
+        
+        meshHUD.removeVertex(ofRandom(400, 600));
+        
+    }
+    
+    
+    ofPopStyle();
+    
     /////SETUP OSC/////
     
     osc.setup(portNumber);
@@ -93,13 +129,13 @@ void nsVisuals::triSquares(ofVec2f position) {
     
    for (int i = 0; i < squareAmt; i++) {
 
-//        if ( osc.getFloatMessage(0) == 1.0 ) {
        if ( osc.getPad(1) == 1){
+           
             float speed = 5;
        
            triAlpha = ofMap(sin(i + ofGetElapsedTimef() * speed) * 255, -255, 255, 0, 255);
         
-       }
+      }
 
         ofPushStyle(); {
 
@@ -155,7 +191,6 @@ void nsVisuals::scanLines() {
     
     ofPushStyle();
     
-    
     blend += 5.0;
     
     if (blend >= height - 5) {
@@ -207,7 +242,6 @@ void nsVisuals::scanLines() {
     }
     
     ofPopStyle();
-    
 }
 
 void nsVisuals::sines() {
@@ -465,6 +499,7 @@ void nsVisuals::deformedMesh() {
     
     ofPushStyle();
     ofPushMatrix();
+   
     
     if ( osc.getFloatMessage(1) == 1.0 ) {
         
@@ -478,7 +513,7 @@ void nsVisuals::deformedMesh() {
         ofTranslate(modelPosition[randomMeshPosition]);
         
     }
-
+    
     ofRotate(ofMap(osc.getKnob(0), 0.0, 1.0, 0, ofGetWidth()) + ofGetElapsedTimef() * 5.0, 1, 1, 1);
     ofRotate(90,1,1,1);
     
@@ -519,6 +554,12 @@ void nsVisuals::deformedMesh() {
         //c.a = ofMap(i, 0, verts.size(), 50, 180);
         mesh.addColor(c);
         
+        ofPushStyle();
+        ofPushMatrix();
+        ofSetColor(ofColor::crimson, 200);
+        ofDrawSphere(verts[i], .005);
+        ofPopMatrix();
+        ofPopStyle();
     }
 
     mesh.drawWireframe();
@@ -545,7 +586,7 @@ void nsVisuals::organismDraw(ofVec2f pos, float scale, float rotateSpeed) {
 
     ofScale(scale, scale);
     
-    for ( float i = 0.0; i < 25.0; i++ ) {
+    for ( float i = 0.0; i < 30.0; i++ ) {
         ofPoint pos;
         pos.set(ofGetWidth() * .5, -i + ofGetHeight() * .5 + sin(ofGetElapsedTimef() * 1.0) * 10.0);
         
@@ -627,6 +668,132 @@ void nsVisuals::organism(ofPoint& pos, ofColor& c, float scale, float rotation, 
     }
 
 }
+
+void nsVisuals::texOrgDraw(ofVec2f position) {
+    
+    texOrgSpinX = ofGetElapsedTimef() * 7.0f;
+    texOrgSpinY = ofGetElapsedTimef() * 10.0f;
+    
+    
+    ofPushMatrix();
+    ofTranslate(position);
+    ofScale(texOrgScale, texOrgScale);
+    ofRotateX(texOrgSpinX);
+    ofRotateY(texOrgSpinY);
+    ofSetColor(ofColor::lightBlue);
+    texOrgImg.bind();
+    texOrgMesh.draw();
+    texOrgImg.unbind();
+    
+    ofPopMatrix();
+    
+    ofPushMatrix();
+    ofTranslate(position);
+    ofScale(texOrgScale, texOrgScale);
+    ofRotateX(texOrgSpinX);
+    ofRotateY(texOrgSpinY);
+    texOrgImg.bind();
+    ofSetColor(ofColor::black, 200);
+    
+    texOrgMesh.drawWireframe();
+    texOrgImg.unbind();
+    
+    ofPopMatrix();
+    
+    texOrgMovement();
+    
+    HUD(texOrgSpinX * 2.0, texOrgSpinY * 6.0);
+
+    
+}
+
+void nsVisuals::texOrgMovement() {
+    
+    vector<ofVec3f>& verts = texOrgMesh.getVertices();
+    
+    for(unsigned int i = 0; i < verts.size(); i++){
+        
+        
+        float liquidness = 25.0;
+        float amplitude = 0.05;
+        float speedDampen = 8.0;
+        float noise = ofSignedNoise(verts[i].x / liquidness, verts[i].y / liquidness,verts[i].z / liquidness, ofGetElapsedTimef() * speedDampen) * amplitude;
+        verts[i].x += noise;
+        verts[i].y += noise;
+        verts[i].z += noise;
+        
+        
+    }
+    
+    int meshSize = texOrgMesh.getVertices().size();
+    
+    for (int i = 0; i < meshSize; i++) {
+        
+        float posX = texOrgMesh.getVertices().at(i).x;
+        float posY = texOrgMesh.getVertices().at(i).y;
+        float posZ = texOrgMesh.getVertices().at(i).z;
+        
+        
+        
+        ofPushStyle();
+        ofPushMatrix();
+        ofSetCircleResolution(60);
+        ofTranslate(ofGetWidth() * .5, ofGetHeight() * .5);
+        ofScale(texOrgScale, texOrgScale);
+        ofRotateX(texOrgSpinX);
+        ofRotateY(texOrgSpinY);
+        //float alpha = ofMap(sin(i + ofGetElapsedTimef() * 10.0) * 255, -255, 255, 0, 255);
+        ofSetColor(ofColor::white);
+        ofDrawSphere(posX, posY, posZ, .25);
+        ofPopMatrix();
+        ofPopStyle();
+        
+        
+    }
+    
+}
+
+void nsVisuals::HUD(float rotateX, float rotateY){
+    
+    
+    ofPushStyle();
+    ofPushMatrix();
+    ofSetColor(255);
+    ofTranslate(center);
+    ofScale(11, 13);
+    ofRotateX(rotateX);
+    ofRotateY(rotateY);
+    meshHUD.drawWireframe();
+    ofPopMatrix();
+    ofPopStyle();
+    
+    for (int i = 0; i < 50; i++) {
+        
+        ofPushStyle();
+        ofPushMatrix();
+        ofSetColor(ofColor::hotPink);
+        ofTranslate(center);
+        ofScale(11, 13);
+        ofRotateX(i * 500 + rotateX * .05);
+        ofRotateY(i * 1000 + rotateY * .30);
+        
+        for (float pos = 0; pos < 5.0; pos+=.85) {
+            ofDrawSphere(22 + pos, 0, .09);
+        }
+        ofSetColor(ofColor::white, 240);
+        ofLine(20,0, 21,0);
+        ofNoFill();
+        ofSetCircleResolution(60);
+        ofRotateY(450);
+        ofCircle(0,0,20, .5);
+        
+        ofPopMatrix();
+        ofPopStyle();
+    }
+    
+    
+}
+
 
 //// THIS IS CODE FOR THE THREE BACKGROUND PANELS ////
 
