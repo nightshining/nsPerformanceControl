@@ -18,11 +18,6 @@ void nsVisuals::setup(int portNumber) {
     /////SETUP LOCAL VARIABLES/////
     
     triAlpha = 255.0;
-    blend = 0;
-    scanLinesAlpha = 255.0;
-    scanLinesColor.set(0, 255, 250, 150);
-    sinesFade = 0.0;
-    sinesAlpha = 0.0;
     squareNoise = 0.0;
     wavesMax = 100;
     wavesFreq = 0.0;
@@ -31,14 +26,6 @@ void nsVisuals::setup(int portNumber) {
     sphereCounter = 0.003;
     sphereAlpha.resize(50);
     
-    float verticalCircleSize = width * height;
-    
-    verticalAlpha.resize(verticalCircleSize);
-    
-    for (int i = 0; i < verticalAlpha.size(); i++) {
-        
-        verticalAlpha[i] = 0.0;
-    }
     
     model.loadModel("3d/rock.3ds");
     model.setPosition(0,0,0);
@@ -48,19 +35,6 @@ void nsVisuals::setup(int portNumber) {
     meshRumble = 0.0;
     randomMeshPosition = 0;
     
-    nCurveVertices = 6;
-    
-    curveVertices.resize(nCurveVertices);
-    
-    
-    curveVertices[0].set(0, -65);
-    curveVertices[1].set(65, -80);
-    curveVertices[2].set(65, 25);
-    curveVertices[3].set(0, 75);
-    curveVertices[4].set(-65, 65);
-    curveVertices[5].set(-50, -65);
-    
-    noiseOrganism = 0.0;
     
     texOrgImg.loadImage("Texture/oak.jpg");
     
@@ -98,6 +72,14 @@ void nsVisuals::setup(int portNumber) {
     
     ofPopStyle();
     
+    //Organic Mesh
+    genMesh.setMode(OF_PRIMITIVE_LINE_LOOP);
+    genMeshNoise = 0.0;
+    genMeshSize = 0.0;
+    genMeshCoords = ofVec3f(0.0,0.0,0.0);
+    genMeshColor = ofColor(0.0,0.0,0.0);
+    genMeshTime = 0.0;
+    
     /////SETUP OSC/////
     
     osc.setup(portNumber);
@@ -118,9 +100,71 @@ void nsVisuals::update() {
     
     dynamicPositioning();
     
-    //vid.update();
   
 }
+
+void nsVisuals::organicMesh(ofVec2f position, nsShapeTitle nsName ) {
+    
+    genMesh.clear();
+    genMesh.clearColors();
+    
+
+    for (float u = 0.0; u < 2 * PI; u += PI / 75) {
+        for (float v = 0.0; v < 2 * PI; v += 2 * PI / 75) {
+            
+            switch (nsName) {
+                case NS_SINE:
+                    
+                    genMeshNoise = ofMap(ofGetMouseX(),0,ofGetWidth(),0.0,5.0,true);
+                    genMeshSize = 200;
+                    genMeshCoords.x = sin(u) * sin(v) * genMeshSize;
+                    genMeshCoords.y = ofSignedNoise(u + ofGetElapsedTimef() * genMeshNoise)* ofSignedNoise(v + ofGetElapsedTimef() * genMeshNoise) * ofMap(ofGetMouseY(),0,ofGetHeight(),0.0,300.0);
+                    genMeshCoords.z = sin(v) * cos(v) * genMeshSize;
+
+                    genMeshColor = ofFloatColor(0.80,0.80,0.70, u * 0.05);
+
+                    break;
+                case NS_MESH_MOLD:
+                    
+                    genMeshSize = 150;
+                    genMeshCoords.set(sin(u) * cos(v) * genMeshSize, cos(u) * sin(v) * genMeshSize, sin(v) * cos(v) * genMeshSize );
+                    
+                    genMeshColor = ofFloatColor(0.25,0.80,0.70, u * 0.05);
+
+                    break;
+                case NS_NOISE_WAVE:
+                    
+                    genMeshTime = ofGetElapsedTimef() * 1.0f;
+                    genMeshNoise = ofSignedNoise(v + cos(genMeshTime)) * 5.0f;
+                    genMeshSize = 100;
+                    genMeshCoords.x = sin(v) * cos(u) * genMeshSize;
+                    genMeshCoords.y = cos(v) * sin(v + genMeshNoise) * genMeshSize;
+                    genMeshCoords.z = sin(u + genMeshTime + genMeshNoise * cos(v + genMeshTime)) * genMeshSize;
+                    genMeshColor = ofFloatColor(0.5,0.80,0.90, u * 0.05);
+                    
+                default:
+                    break;
+            }
+            
+            genMesh.addColor(genMeshColor);
+            ofVec3f vec = ofVec3f(genMeshCoords);
+            genMesh.addVertex(vec);
+            
+        }
+    }
+    
+    ofPushStyle();
+    ofPushMatrix();
+    ofTranslate(position);
+    //ofRotateX((ofGetElapsedTimef() * 33.0));
+    //ofRotateY(ofGetElapsedTimef() * 50.0);
+    //ofRotateZ(ofGetElapsedTimef() * 15.0);
+    genMesh.draw();
+    ofPopMatrix();
+    ofPopStyle();
+    
+}
+
 
 void nsVisuals::triSquares(ofVec2f position) {
     
@@ -155,166 +199,6 @@ void nsVisuals::triSquares(ofVec2f position) {
     triAlpha -= 5;
 }
 
-void nsVisuals::sineCircles() {
-    
-    int patternInc = 50;
-    
-    for (int i = 0; i < width; i += patternInc) {
-        
-        for (int j = 0; j < height; j += patternInc) {
-            
-            float sineCirclesAlpha = 0;
-            float sineCirclesRadius = 0;
-            
-            if ( osc.getFloatMessage(1) == 1.0 ) {
-                
-                sineCirclesAlpha = ofMap( sin(i + ofGetElapsedTimef() * 5 ) * 255, -255, 255, 0, 255);
-                sineCirclesRadius = ofMap(sin(i + ofGetElapsedTimef() * 5 ) * 25, -25, 25, 0, 25);
-            } else {
-                sineCirclesAlpha = 0;
-            }
-            
-            ofPushStyle();
-            ofPushMatrix();
-            ofTranslate(left);
-            ofScale(scale, scale);
-            ofSetColor(objectColor, sineCirclesAlpha);
-            ofCircle(i, j, sineCirclesRadius, sineCirclesRadius);
-            ofPopMatrix();
-            ofPopStyle();
-        }
-    }
-    
-}
-
-void nsVisuals::scanLines() {
-    
-    ofPushStyle();
-    
-    blend += 5.0;
-    
-    if (blend >= height - 5) {
-        blend = 0.0;
-    }
-    
-    ofPushMatrix();
-    ofScale(scale, scale);
-    ofTranslate(center);
-  
-    ofSetColor(scanLinesColor, 150);
-    ofRect(0, blend, width, 5);
-    ofPopMatrix();
-    
-    for (int j = 0; j < height; j+=30) {
-        
-        scanLinesAlpha -= 0.50;
-        
-        if ( scanLinesAlpha <= 10.0 ) {
-            
-            scanLinesAlpha = 0;
-        }
-        
-        
-        if ( osc.getFloatMessage(2) ) {
-            scanLinesAlpha = 255;
-        }
-        
-        ofPushMatrix();
-        ofScale(scale, scale);
-        ofTranslate(center);
-        
-        ofSetColor(objectColor, scanLinesAlpha);
-        ofRect(0,0, width, j);
-        ofPopMatrix();
-        
-        }
-    
-    for (int h = 0; h < height; h+=15) {
-        
-        ofPushMatrix();
-        ofScale(scale, scale);
-        ofTranslate(center);
-        
-        ofSetColor(objectColor);
-        ofLine(0, h, width, h);
-        ofPopMatrix();
-
-    }
-    
-    ofPopStyle();
-}
-
-void nsVisuals::sines() {
-
-    sinesFade -= 5.0;
-    
-    if(sinesFade <= 20.0) {
-        sinesFade = 20.0;
-    }
-    
-    if(osc.getFloatMessage(3)) {
-        sinesFade = 255;
-    }
-    
-    ofPushMatrix();
-
-    ofTranslate(left);
-    ofScale(scale, scale);
-
-
-    ofSetColor(objectColor);
-    ofRect(0,0,width,height);
-    ofPopMatrix();
-    
-    for(int w = 0; w < width; w+=5){
-        
-        float sine = sin(w + ofGetElapsedTimef() * 5) * sinesFade;
-        sinesAlpha = cos(w) * 255;
-        float size = ofMap( sin(w + ofGetElapsedTimef()), -1.0, 1.0, 10, 20);
-        
-        ofPushMatrix();
-        ofTranslate(left);
-        ofScale(scale, scale);
-
-        ofSetColor(ofColor::black, sinesAlpha);
-        ofCircle(w, sine, size, size);
-        ofPopMatrix();
-    }
-    
-}
-
-void nsVisuals::verticalCircles() {
-    
-    ofPushMatrix();
-    ofTranslate(center);
-    for(int i = 0; i < width; i+=50) {
-        for (int j = 0; j < height; j+=25) {
-          
-            float size = cos(i  + ofGetElapsedTimef() * 5) * 25;
-            float yPos = sin(j  + ofGetElapsedTimef() * 7) * 150;
-            
-            verticalAlpha[i] -= ofNoise(i) + 0.20;
-            
-            if ( verticalAlpha[i] <= 1.0 ) {
-                
-                verticalAlpha[i] = 0.0;
-            }
-            
-            if (osc.getFloatMessage(4)) {
-                
-                verticalAlpha[i] = 255.0;
-                
-            }
-            
-            
-            ofSetColor(objectColor, verticalAlpha[i]);
-            ofCircle( i, yPos, size, size );
-
-        }
-    }
-    ofPopMatrix();
-    
-}
 
 void nsVisuals::noiseSquares( ofVec2f position ) {
     
@@ -576,106 +460,17 @@ void nsVisuals::deformedMesh() {
     }
 }
 
-void nsVisuals::organismDraw(ofVec2f pos, float scale, float rotateSpeed) {
-    
-    ofPushStyle();
-    ofPushMatrix();
-    ofSetLineWidth(.01);
-    ofTranslate(pos);
-    ofRotateZ(ofGetElapsedTimef() * rotateSpeed);
-
-    ofScale(scale, scale);
-    
-    for ( float i = 0.0; i < 30.0; i++ ) {
-        ofPoint pos;
-        pos.set(ofGetWidth() * .5, -i + ofGetHeight() * .5 + sin(ofGetElapsedTimef() * 1.0) * 10.0);
-        
-        ofColor c;
-        if ( i == 0.0 ) {
-            c.set(220, ofNoise(ofGetElapsedTimef() * 1.5) * 255, 250);
-            ofFill();
-        } else {
-            c.set(ofColor::white);
-        }
-        int min = -13;
-        int max = 177;
-        c.a = ofMap(i, 0.0, 25.0, min, max);
-        float scale = ofMap(i, 0, 50.0, 0.001, 5.0) + ofNoise(ofGetElapsedTimef() * 0.55) * .50;
-        
-        float rotate = ofNoise(i + ofGetElapsedTimef() * .50) * 5.0;
-        float noiseSpeed = ofNoise(ofGetElapsedTimef()) * .50;
-        organism(pos, c, scale, rotate, noiseSpeed);
-        
-        //ofDrawBitmapString("Min: " + ofToString(min) + " Max: " + ofToString(max), 50, 50);
-    }
-
-    ofPopMatrix();
-    ofPopStyle();
-    
-}
-
-void nsVisuals::organism(ofPoint& pos, ofColor& c, float scale, float rotation, float noiseFreq) {
-    
-    
-    ofPushStyle();
-    ofSetColor(c);
-    ofNoFill();
-    ofPushMatrix();
-    
-    ofScale( scale, scale );
-    ofRotateZ(rotation);
-    
-    ofBeginShape();
-    
-    for (int i = 0; i < nCurveVertices; i++){
-        
-        noiseOrganism = ofNoise(i + ofGetElapsedTimef() * noiseFreq) * 50;
-        
-          
-        
-        if (i == 0){
-            ofCurveVertex(curveVertices[0].x, curveVertices[0].y); // we need to duplicate 0 for the curve to start at point 0
-            ofCurveVertex(curveVertices[0].x, curveVertices[0].y); // we need to duplicate 0 for the curve to start at point 0
-        } else if (i == nCurveVertices-1){
-            
-            ofCurveVertex(curveVertices[i].x, curveVertices[i].y + noiseOrganism);
-            ofCurveVertex(curveVertices[0].x, curveVertices[0].y);	// to draw a curve from pt 6 to pt 0
-            ofCurveVertex(curveVertices[0].x, curveVertices[0].y);	// we duplicate the first point twice
-        } else {
-            ofCurveVertex(curveVertices[i].x, curveVertices[i].y + noiseOrganism);
-        }
-        
-        
-        if ( i == 0 ) {
-            ofCircle(curveVertices[0].x, curveVertices[0].y, ofNoise(i + ofGetElapsedTimef() * 2.0) * 1.0);
-            
-        } else {
-            ofCircle(curveVertices[i].x, curveVertices[i].y + noiseOrganism, ofNoise(i + ofGetElapsedTimef() * 2.0) * 1.0);
-        }
-        
-        
-    }
-        
-    
-    ofEndShape();
-    ofPopMatrix();
-    ofPopStyle();
-    
-    for (int mpd = 0; mpd < 16; mpd++) {
-        if (osc.getPad(mpd) == 1) {
-    noiseOrganism = ofNoise(ofGetElapsedTimef() * 20.0) * ofMap(osc.getKnob(0), 0.0, 1.0, 50.0, 150.0);
-        }
-    }
-
-}
 
 void nsVisuals::texOrgDraw(ofVec2f position) {
+    
     
     texOrgSpinX = ofGetElapsedTimef() * 7.0f;
     texOrgSpinY = ofGetElapsedTimef() * 10.0f;
     
+    ofEnableDepthTest(); //important to enable and disable here bc it effects everything else otherwise
     
     ofPushMatrix();
+    
     ofTranslate(position);
     ofScale(texOrgScale, texOrgScale);
     ofRotateX(texOrgSpinX);
@@ -684,6 +479,7 @@ void nsVisuals::texOrgDraw(ofVec2f position) {
     texOrgImg.bind();
     texOrgMesh.draw();
     texOrgImg.unbind();
+    
     
     ofPopMatrix();
     
@@ -704,7 +500,7 @@ void nsVisuals::texOrgDraw(ofVec2f position) {
     
     HUD(texOrgSpinX * 2.0, texOrgSpinY * 6.0);
 
-    
+    ofDisableDepthTest();
 }
 
 void nsVisuals::texOrgMovement() {
@@ -806,6 +602,8 @@ void nsVisuals::background() {
     osc.debugPads();
     osc.debugKnobs();
     osc.debugSliders();
+    
+    cout << ofGetFrameRate() << endl;
     
 }
 

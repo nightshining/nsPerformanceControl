@@ -7,7 +7,6 @@ void ofApp::setup(){
     ofBackground(5);
     ofEnableAlphaBlending();
     ofSetFullscreen(false);
-    ofEnableDepthTest();
     ofEnableNormalizedTexCoords();
     ofDisableArbTex();
     
@@ -36,21 +35,14 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+  
     ///DEBUG///
     
     if ( bDebug == true ) {
-        
-        ofPushStyle();
-        ofPushMatrix();
-        ofSetColor(ofColor::white);
         visuals.background();
-        ofPopMatrix();
-        ofPopStyle();
-        
         dCounter();
         
     }
-    
     
     ///CONTROL///
     
@@ -71,18 +63,24 @@ void ofApp::draw(){
             break;
         }
         case 4:
-            visuals.organismDraw(getLeft(), .75, 0.5);
-            visuals.organismDraw(getRight(), .65, 5.0);
-            break;
-        case 5:
             visuals.texOrgDraw(getCenter());
             break;
+        case 5:
+            visuals.organicMesh(getCenter(), NS_SINE );
+            //visuals.organicMesh(getRight(), NS_MESH_MOLD );
+            //visuals.organicMesh(getLeft(), NS_MESH_MOLD );
+            break;
+        case 6:
+            visuals.organicMesh(getCenter(), NS_NOISE_WAVE);
+            break;
+
         default:
             break;
     }
     
 
     
+
 }
 
 
@@ -146,8 +144,10 @@ ofVec2f ofApp::getRight() {
 void ofApp::dCounter() {
     
     ofPushStyle();
+    ofPushMatrix();
     ofSetColor(0, 255, 255);
     ofDrawBitmapString("Counter: " + ofToString(counter), 25, 25);
+    ofPopMatrix();
     ofPopStyle();
     
 }

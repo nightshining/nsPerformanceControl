@@ -130,7 +130,9 @@ void nsOsc::debugSliders() {
 
     for (int i = 0; i < sliderMessage.size(); i++) {
         
+        ofPushMatrix();
         ofDrawBitmapString("Sliders: " + ofToString(i) + " " + ofToString(sliderMessage[i]), ofGetWidth() * .05, i * 10 + ofGetHeight() * .10);
+        ofPopMatrix();
         
     }
 
@@ -142,7 +144,9 @@ void nsOsc::debugKnobs() {
    
     for (int i = 0; i < knobMessage.size(); i++) {
         
+        ofPushMatrix();
         ofDrawBitmapString("Knobs: " + ofToString(i) + " " + ofToString(knobMessage[i]), ofGetWidth() * .20, i * 10 + ofGetHeight() * .10);
+        ofPopMatrix();
         
     }
   
@@ -150,11 +154,13 @@ void nsOsc::debugKnobs() {
 
 void nsOsc::debugPads() {
     
+    ofPushMatrix();
     for (int i = 0; i < padMessage.size(); i++) {
         
         ofDrawBitmapString("Pads: " + ofToString(i) + " " + ofToString(padMessage[i]), ofGetWidth() * .40, i * 10 + ofGetHeight() * .10);
         
     }
+    ofPopMatrix();
     
 }
 

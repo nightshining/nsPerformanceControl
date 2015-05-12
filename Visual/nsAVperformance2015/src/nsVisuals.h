@@ -4,6 +4,11 @@
 #include "nsOsc.h"
 #include "ofxAssimpModelLoader.h"
 
+enum nsShapeTitle {
+    
+    NS_SINE, NS_NOISE_WAVE, NS_MESH_MOLD
+    
+};
 
 class nsVisuals {
     
@@ -18,16 +23,12 @@ public:
     void background();
     
     void triSquares(ofVec2f position);
-    void sineCircles();
-    void scanLines();
-    void sines();
-    void verticalCircles();
     void noiseSquares(ofVec2f position);
     void waves(float posX, float posY);
     void generativeSphere(ofVec2f position);
     void deformedMesh();
-    void organismDraw(ofVec2f pos, float scale, float rotateSpeed);
     void texOrgDraw(ofVec2f position);
+    void organicMesh(ofVec2f position, nsShapeTitle nsName);
 
     
 private:
@@ -46,20 +47,6 @@ private:
     //triSquare Vars
     float triAlpha;
     
-    //sineCircles Vars
-    //float sineCirclesAlpha;
-    
-    //scanLines Vars
-    float blend, scanLinesAlpha;
-    ofColor scanLinesColor;
-    
-    //sines Vars
-    float sinesFade, sinesAlpha;
-    
-    //verticalCircles
-    vector<float> verticalAlpha;
-    
-    
     //noiseSquares
     float squareNoise;
     
@@ -77,12 +64,6 @@ private:
     int randomMeshPosition;
     float meshAlpha, meshRumble;
 
-    //Organism
-    int nCurveVertices;
-    vector<ofVec2f> curveVertices;
-    void organism(ofPoint& pos, ofColor& c, float scale, float rotation, float noiseAmt);
-    float noiseOrganism;
-    
     //texturedOrg
     
     ofSpherePrimitive texOrgSphere;
@@ -98,29 +79,10 @@ private:
     ofSpherePrimitive sphereHUD;
     ofMesh meshHUD;
     void HUD(float rotateX, float rotateY);
-
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
+    //Mesh Objects
+    ofMesh genMesh;
+    float genMeshNoise, genMeshSize, genMeshTime;
+    ofVec3f genMeshCoords;
+    ofFloatColor genMeshColor;
 };
