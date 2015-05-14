@@ -18,16 +18,12 @@ void ofApp::setup(){
     counter = 0;
     counterMax = 10;
     
-    
-  
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
     visuals.update();
-    
-  
     
     
 }
@@ -67,20 +63,22 @@ void ofApp::draw(){
             break;
         case 5:
             visuals.organicMesh(getCenter(), NS_SINE );
-            //visuals.organicMesh(getRight(), NS_MESH_MOLD );
-            //visuals.organicMesh(getLeft(), NS_MESH_MOLD );
+            visuals.organicMesh(getRight(), NS_MESH_MOLD );
+            visuals.organicMesh(getLeft(), NS_MESH_MOLD );
             break;
         case 6:
             visuals.organicMesh(getCenter(), NS_NOISE_WAVE);
+            break;
+        case 7:
+            visuals.organicMesh(getCenter(), NS_APPLE );
+            visuals.organicMesh(getLeft(), NS_GHOST);
+            visuals.organicMesh(getRight(), NS_GHOST);
+
             break;
 
         default:
             break;
     }
-    
-
-    
-
 }
 
 
@@ -116,6 +114,7 @@ void ofApp::keyPressed(int key){
         counter = counterMax;
         
     }
+    
 }
 
 ofVec2f ofApp::getLeft() {
@@ -152,42 +151,4 @@ void ofApp::dCounter() {
     
 }
 
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
 
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
-}

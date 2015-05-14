@@ -6,9 +6,10 @@
 
 enum nsShapeTitle {
     
-    NS_SINE, NS_NOISE_WAVE, NS_MESH_MOLD
-    
+    NS_SINE, NS_NOISE_WAVE, NS_MESH_MOLD, NS_APPLE, NS_GHOST
 };
+
+//total: 5 //
 
 class nsVisuals {
     
@@ -57,7 +58,6 @@ private:
     float sphereCounter, boxAlpha;
     vector <float> sphereAlpha;
 
-    
     //deformedMesh
     ofxAssimpModelLoader model;
     vector<ofPoint> modelPosition;
@@ -84,5 +84,8 @@ private:
     ofMesh genMesh;
     float genMeshNoise, genMeshSize, genMeshTime;
     ofVec3f genMeshCoords;
+    ofVec3f genMeshRotate;
     ofFloatColor genMeshColor;
+    vector<float> genMeshExpr;
+    
 };
