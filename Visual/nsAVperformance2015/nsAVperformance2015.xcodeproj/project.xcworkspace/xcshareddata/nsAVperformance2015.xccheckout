@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D1253EE5-A44C-4246-9591-09B379764ED5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>nsAVperformance2015</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9A974E1DF3355655DF6805DC73A6FE76F51FED54</key>
+		<string>https://github.com/nightshining/nsPerformanceControl.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Visual/nsAVperformance2015/nsAVperformance2015.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9A974E1DF3355655DF6805DC73A6FE76F51FED54</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/nightshining/nsPerformanceControl.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9A974E1DF3355655DF6805DC73A6FE76F51FED54</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9A974E1DF3355655DF6805DC73A6FE76F51FED54</string>
+			<key>IDESourceControlWCCName</key>
+			<string>nsPerformanceControl</string>
+		</dict>
+	</array>
+</dict>
+</plist>

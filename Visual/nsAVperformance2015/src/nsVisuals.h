@@ -87,5 +87,5 @@ private:
     ofVec3f genMeshRotate;
     ofFloatColor genMeshColor;
     vector<float> genMeshExpr;
-    
+
 };

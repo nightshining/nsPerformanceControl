@@ -125,6 +125,7 @@ void nsVisuals::organicMesh(ofVec2f position, nsShapeTitle nsName ) {
                     genMeshCoords.z = sin(v) * cos(v) * genMeshSize;
 
                     genMeshColor = ofFloatColor(0.80,0.80,0.70, u * 0.05);
+                    genMeshRotate.set(0, 0, 0);
                     break;
                     
                 case NS_MESH_MOLD:
@@ -134,17 +135,19 @@ void nsVisuals::organicMesh(ofVec2f position, nsShapeTitle nsName ) {
                     genMeshCoords.set(sin(u) * cos(v + genMeshTime) * genMeshSize, cos(u) * sin(v) * genMeshSize, sin(v) * cos(v) * genMeshSize );
                     
                     genMeshColor = ofFloatColor(0.25,0.80,0.70, u * 0.05);
+                    genMeshRotate.set(0, 0, 0);
                     break;
                     
                 case NS_NOISE_WAVE:
                     
-                    genMeshTime = ofGetElapsedTimef() * 1.0f;
-                    genMeshNoise = ofMap(ofGetMouseX(),0,ofGetWidth(),0.0,5.0,true) +ofSignedNoise(v + cos(genMeshTime)) * 5.0f;
-                    genMeshSize = 100;
-                    genMeshCoords.x = sin(v) * cos(u) * genMeshSize;
-                    genMeshCoords.y = cos(v) * sin(v + genMeshNoise) * genMeshSize;
+                    genMeshTime = ofGetElapsedTimef() * 5.0f;
+                    genMeshNoise =  ofNoise(genMeshTime * .05);
+                    genMeshSize = 150;
+                    genMeshCoords.x = sin(v) * cos(u) * ofMap(ofGetMouseX(),0,ofGetWidth(),0.0,5.0,true) * genMeshSize;
+                    genMeshCoords.y = cos(v * sin(v)) * sin(v) * genMeshSize;
                     genMeshCoords.z = sin(u + genMeshTime + genMeshNoise * cos(v + genMeshTime)) * genMeshSize;
-                    genMeshColor = ofFloatColor(0.5,0.80,0.90, u * 0.05);
+                    genMeshColor = ofFloatColor(0.95,0.06,0.30, u * 0.05);
+                    genMeshRotate.set(genMeshTime, genMeshTime, genMeshTime);
                     break;
                     
                 case NS_APPLE:
@@ -152,19 +155,13 @@ void nsVisuals::organicMesh(ofVec2f position, nsShapeTitle nsName ) {
                     genMeshNoise = ofSignedNoise(v + cos(genMeshTime)) * 5.0f;
                     genMeshSize = 100;
                     
-                    //random expr
-                    //genMeshExpr[0] =  //orig
-                    //genMeshExpr[1] =
-                    //genMeshExpr[2] =
-                    //genMeshExpr[3] =
-                    //genMeshExpr[4] =
-
-                    
                     //coords color
                     genMeshCoords.x = sin(v) * cos(u) * genMeshSize;
                     genMeshCoords.y = genMeshNoise + cos(v + u) * genMeshSize;
                     genMeshCoords.z = sin(u + genMeshTime + genMeshNoise * cos(v + genMeshTime)) * genMeshSize;
                     genMeshColor = ofFloatColor(0.10,0.8,0.50, u * 0.05);
+                    genMeshRotate.set(0, 0, 0);
+
                     break;
                     
                 case NS_GHOST:
@@ -190,17 +187,17 @@ void nsVisuals::organicMesh(ofVec2f position, nsShapeTitle nsName ) {
             
         }
     }
+ 
     ofPushStyle();
     ofPushMatrix();
     ofTranslate(position);
-    //ofRotateX(genMeshRotate.x);
-    //ofRotateY(genMeshRotate.y);
-    //ofRotateZ(genMeshRotate.z);
+    ofRotateX(genMeshRotate.x);
+    ofRotateY(genMeshRotate.y);
+    ofRotateZ(genMeshRotate.z);
     genMesh.draw();
     ofPopMatrix();
     ofPopStyle();
-    
-  
+
 
 }
 

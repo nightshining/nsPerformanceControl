@@ -15,7 +15,7 @@ void ofApp::setup(){
 
     bDebug = true;
     
-    counter = 0;
+    counter = 6;
     counterMax = 10;
     
 }

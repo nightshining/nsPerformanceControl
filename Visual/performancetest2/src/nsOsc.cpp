@@ -16,9 +16,9 @@ void nsOsc::setup(int port){
   
     receiver.setup(port);
     
-    int totalPad = 16;
-    int totalKnob = 8;
-    int totalSlider = 8;
+    totalPad = 16;
+    totalKnob = 8;
+    totalSlider = 8;
     
     
     knobMessage.resize(totalKnob);
@@ -49,6 +49,8 @@ void nsOsc::update() {
         ofxOscMessage message;
         
         receiver.getNextMessage(&message);
+        
+        cout << "Message: " << message.getArgAsString(0) << endl;
         
         for(int i = 0; i < messageName.size(); i++ ) {
         
@@ -124,6 +126,21 @@ float nsOsc::getPad(int index) {
     return padMessage[index];
 }
 
+
+int nsOsc::getTotalKnobs() {
+    
+    return totalKnob;
+}
+
+int nsOsc::getTotalSliders() {
+    
+    return totalSlider;
+}
+
+int nsOsc::getTotalPads() {
+    
+    return totalPad;
+}
 
 void nsOsc::debugSliders() {
     
