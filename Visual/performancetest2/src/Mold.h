@@ -32,6 +32,13 @@ public:
     
     void draw() {
         
+        alpha -= 0.01;
+        
+        if (alpha <= 0.0) {
+        
+            alpha = 0.0;
+        }
+        
         mesh.clear();
         mesh.clearColors();
         
@@ -66,9 +73,9 @@ public:
         
     }
     
-    void setAlpha(float amt) {
+    void setAlpha() {
         
-        alpha = ofMap(rampToggle(amt, 0.75, 0.5), 0.0, 1.0, 0.0, 0.1, true);
+        alpha = .08;
 
     }
     

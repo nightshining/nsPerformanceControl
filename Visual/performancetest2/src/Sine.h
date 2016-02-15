@@ -1,19 +1,21 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxControlUtils.h"
+#include "ofxTween.h"
 
-class Sine : public ofxControlUtils {
+class Sine {
     
 private:
     
     ofMesh mesh;
+    ofxEasingSine tweenEasing;
+    ofxTween animateSize, animateNoise;
     
     float time, noise, size, sizeY;
     ofFloatColor color;
     ofVec3f coords, rotate;
     ofPoint pos;
-    ofxControlUtils ctrlNoise, ctrlScale;
+    bool bAnimate;
     
     float x, easing;
     float timeX;
@@ -34,6 +36,7 @@ public:
         pos = ofPoint(0,0);
         
         easing = 0.005;
+        bAnimate = false;
 
     }
     
@@ -54,8 +57,8 @@ public:
         
         addMovement();
         
-        for (float u = 0.0; u < 2 * PI; u += PI / 75) {
-            for (float v = 0.0; v < 2 * PI; v += 2 * PI / 75) {
+        for (float u = 0.0; u < 2 * PI; u += PI / 100) {
+            for (float v = 0.0; v < 2 * PI; v += 2 * PI / 100) {
                 
                 //noise = ofMap(ofGetMouseX(),0,ofGetWidth(),0.0,5.0,true);
                 size = 200;
@@ -87,21 +90,60 @@ public:
         
     }
     
-    void setNoise(float value) {
+    void fadeUp() {
+        int maxSpeed = 5.0;
+        int maxSize = 550;
         
-        noise = ofMap(ctrlNoise.rampToggle(value, 0.10, 0.08), 0.0, 1.0, 0.0, 2.0);
-    }
-    
-    void setScale(float value) {
+        noise += 0.05;
+        sizeY += 30.0;
         
-        sizeY = ofMap(ctrlScale.rampToggle(value, 0.05, 0.01), 0.0, 1.0, 0.0,300.0);
-    }
-    
-    void setMovement(float _setX) {
+        if (sizeY >= maxSize) {
+            
+            sizeY = maxSize;
+        }
         
-        setMovementX = ofMap(_setX, 0,1,0.05, .8);
+        if (noise >= maxSpeed) {
+            
+            noise = maxSpeed;
+        }
+        
+        
+        setMovementX += 0.008;
+        
+        if (setMovementX >= 0.02) {
+            
+            setMovementX = 0.02;
+        }
 
     }
+    
+    void fadeDown() {
+        
+        int min = 0.0;
+        
+        noise -= 0.05;
+        sizeY -= 45.0;
+        
+        if (sizeY <= min) {
+            
+            sizeY = min;
+        }
+        
+        if (noise <= min) {
+            
+            noise = min;
+        }
+        
+        setMovementX -= 0.01;
+        
+        if (setMovementX <= min) {
+            
+            setMovementX = min;
+        }
+        
+    }
+    
+    
     
     
 };

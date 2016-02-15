@@ -5,6 +5,8 @@
 void ofApp::setup(){
 
     ofBackground(ofColor::black);
+
+    bDebug = false;
     
     counter = 0;
     
@@ -12,16 +14,17 @@ void ofApp::setup(){
     osc.setup(7400);
     osc.setMessageName("/object1"); //index 0
     osc.setMessageName("/object2"); //index 1
-    
+
+
     
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    
     //OSC//
     osc.update();
+    
 
     if (counter == 1) {
         
@@ -94,29 +97,37 @@ void ofApp::update(){
     if (counter == 4) {
 
     //Sine//
-    
-     if (osc.getPad(0) == 1 || osc.getPad(4) == 1 || osc.getPad(7) == 1 || osc.getPad(9) || osc.getPad(11) == 1 || osc.getFloatMessage(1)) {
-         
-         _sine.setNoise(1);
-         _sine.setScale(1);
-            
-     } else {
-         
-         _sine.setNoise(0);
-         _sine.setScale(0);
-     }
         
-        _sine.setMovement(osc.getKnob(3));
+        
+        if (osc.getPad(4) == 1.0 || osc.getPad(6) == 1.0 || osc.getPad(8) == 1.0 || osc.getPad(9) == 1.0 || osc.getPad(11) == 1.0) {
+         
+            _sine.fadeUp();
+            
+        } else {
+            
+            _sine.fadeDown();
+        }
         
     //Mold//
 
-        float triggerMold = osc.getFloatMessage(0);
-    _moldL.setAlpha(triggerMold);
-    _moldR.setAlpha(triggerMold);
+    float triggerMoldL = osc.getFloatMessage(0);
+    float triggerMoldR = osc.getFloatMessage(1);
+    
+        if (triggerMoldL == 1.0) {
+            
+            _moldL.setAlpha();
+            
+        }
+        if (triggerMoldR == 1.0) {
+            
+            _moldR.setAlpha();
+        }
+        
     _moldL.setPos(ofPoint(ofGetWidth()*.18, ofGetHeight()*0.5));
     _moldR.setPos(ofPoint(ofGetWidth()*.80, ofGetHeight()*0.5));
-    _moldL.setTrigger(triggerMold);
-    _moldR.setTrigger(triggerMold);
+        
+    _moldL.setTrigger(triggerMoldL);
+    _moldR.setTrigger(triggerMoldR);
     
     } //end 4
     
@@ -124,22 +135,36 @@ void ofApp::update(){
     if (counter == 5) {
         
         //Fin//
-        _fin.setMovement(ofGetMouseX() * 0.02, ofGetMouseY() * 0.02);
+        _fin.setNoise(osc.getSlider(0));
+        
+        if (osc.getPad(0) == 1.0 || osc.getPad(3) == 1.0 || osc.getPad(8) == 1.0 || osc.getPad(10)) {
+            
+            _fin.setMovement(osc.getKnob(3) * 5.0);
+            
+        }
         _fin.setPos(ofPoint(ofGetWidth() * .5, ofGetHeight() * .5));
         
         //Deformed Sphere//
         
-        dSphereL.setPosition(ofPoint(ofGetWidth() * .15, ofGetHeight() * .5));
-        dSphereR.setPosition(ofPoint(ofGetWidth() * .85, ofGetHeight() * .5));
+        
+        _dSphereL.setDeform(osc.getKnob(3));
+        _dSphereR.setDeform(osc.getKnob(3));
+        
+        _dSphereL.setPosition(ofPoint(ofGetWidth() * .15, ofGetHeight() * .5));
+        _dSphereR.setPosition(ofPoint(ofGetWidth() * .85, ofGetHeight() * .5));
+        
+        if (osc.getFloatMessage(0) == 1.0) {
+        
+            _dSphereL.setPulse();
+            _dSphereR.setPulse();
+        }
         
     } //end 5
-    
     
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
     
     switch (counter) {
         case 1:
@@ -166,29 +191,30 @@ void ofApp::draw(){
             break;
         case 5:
             _fin.draw();
-            dSphereL.draw();
-            dSphereR.draw();
+            _dSphereL.draw();
+            _dSphereR.draw();
             break;
             
         default:
             break;
     }
 
-
     
-//    osc.debugKnobs();
-//    osc.debugPads();
-//    osc.debugSliders();
-//    
+    if (bDebug) {
+    
+    osc.debugKnobs();
+    osc.debugPads();
+    osc.debugSliders();
+    ofDrawBitmapString(ofToString(ofGetFrameRate()), ofPoint(ofGetWidth() * .75, ofGetHeight() * .10));
+        
+    }
+    
     
 
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
-    dSphereL.keyPressed(key);
-    dSphereR.keyPressed(key);
     
     if (key == OF_KEY_UP) {
         counter++;
@@ -212,6 +238,11 @@ void ofApp::keyPressed(int key){
     if (key == '2') {
         ofSetFullscreen(false);
 
+    }
+    
+    if (key == 'd') {
+        
+        bDebug = !bDebug;
     }
 
 }

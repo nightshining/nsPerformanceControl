@@ -14,7 +14,6 @@
 #include "nsOsc.h"
 
 
-
 class ofApp : public ofBaseApp {
 
 	public:
@@ -41,13 +40,11 @@ class ofApp : public ofBaseApp {
     Sine _sine;
     Mold _moldL, _moldR;
     Fin _fin;
-    DeformedSphere dSphereL, dSphereR;
+    DeformedSphere _dSphereL, _dSphereR;
     nsOsc osc;
     
 
     int counter;
-
-    
-
+    bool bDebug;
 
 };
