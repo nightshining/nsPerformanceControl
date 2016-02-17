@@ -13,6 +13,7 @@ private:
     ofVboMesh mesh;
     ofPoint pos;
     
+    
 public:
     
     Fin() {
@@ -21,6 +22,7 @@ public:
         glPointSize(.8);
         noise = 0.0;
         easing = 0.05;
+        
         
     }
     
@@ -72,7 +74,6 @@ public:
         ofRotateZ(r);
         mesh.draw();
         ofPopMatrix();
-        
     }
     
     void addNoise() {

@@ -5,7 +5,8 @@
 void ofApp::setup(){
 
     ofBackground(ofColor::black);
-
+    ofDisableArbTex();
+    
     bDebug = false;
     
     counter = 0;
@@ -15,8 +16,17 @@ void ofApp::setup(){
     osc.setMessageName("/object1"); //index 0
     osc.setMessageName("/object2"); //index 1
 
-
+    //Setup Effect
+    effect.load("shaders/tv");
     
+    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    
+    fbo.begin();
+    ofClear(0);
+    fbo.end();
+    
+    
+
 }
 
 //--------------------------------------------------------------
@@ -33,10 +43,11 @@ void ofApp::update(){
     _waveL.setPos(ofPoint(0, ofGetHeight() * .65));
     _waveR.setPos(ofPoint(ofGetWidth() * .75, ofGetHeight() * .65));
         
-    
-    _waveL.setNoise(osc.getFloatMessage(1));
-    _waveR.setNoise(osc.getFloatMessage(1));
-        
+        if (ofGetKeyPressed(' ')) {
+            
+            _waveL.setNoise();
+            _waveR.setNoise();
+        }
 
     } //end 1
     
@@ -166,6 +177,9 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    fbo.begin();
+    ofClear(0);
+    
     switch (counter) {
         case 1:
             _sphere.draw();
@@ -198,7 +212,21 @@ void ofApp::draw(){
         default:
             break;
     }
-
+    fbo.end();
+    
+    float sliderEffectParam1 = ofMap(osc.getSlider(2), 0.0, 1.0, 0.0, 0.01, true);
+    float sliderEffectParam2 = ofMap(osc.getSlider(3), 0.0, 1.0, 0.0, 0.01, true);
+    
+    effect.begin();
+    effect.setUniform3f("iResolution", ofGetWidth(), ofGetHeight(), 0.0);
+    effect.setUniform1f("iGlobalTime", ofGetElapsedTimef());
+    effect.setUniform4f("iMouse", sliderEffectParam1, sliderEffectParam2, 0.0, 0.0);
+    effect.setUniformTexture("iChannel0", fbo, 0);
+    effect.setUniform4f("iDate", ofGetYear(), ofGetMonth(), ofGetDay(), ofGetSeconds());
+    
+    ofRect(0,0, ofGetWidth(), ofGetHeight());
+    effect.end();
+    
     
     if (bDebug) {
     
@@ -233,10 +261,26 @@ void ofApp::keyPressed(int key){
     if (key == '1') {
         
         ofSetFullscreen(true);
+        
+        
+        fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+        
+        fbo.begin();
+        ofClear(0);
+        fbo.end();
+        
     }
     
     if (key == '2') {
         ofSetFullscreen(false);
+        
+        
+        fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+        
+        fbo.begin();
+        ofClear(0);
+        fbo.end();
+        
 
     }
     

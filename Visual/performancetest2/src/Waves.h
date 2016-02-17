@@ -15,6 +15,7 @@ private:
     ofxEasingLinear ease;
     int duration;
     
+    
 public:
     
     Waves() {
@@ -25,16 +26,23 @@ public:
         alpha = 0.0;
         c = ofColor(240, 240, 230);
         pos = ofPoint(0,0);
-        duration = 1000;
+        duration = 2000;
     }
     
 void draw() {
-    
-    total -= 10;
-    
-    if ( total <= 0 ) {
+
+    if (tween.isCompleted()) {
         
-        total = 0;
+        total -= 10;
+        
+        if (total <= 0.0) {
+            
+            total = 0.0;
+        }
+        
+    } else {
+        
+        total = ofMap(tween.update(), 0, 1, 5, 850);
     }
     
     ofPushStyle(); {
@@ -44,7 +52,7 @@ void draw() {
             
             //Move waves
             //total = ofMap(noiseAmt, 0,1,5,250);
-            total = ofMap(tween.update(), 0, 1, 5, 350);
+
             freq = sin(ofGetElapsedTimef() * 5) * total - sin(ofGetElapsedTimef() * 5) * 25;
             
             
@@ -88,20 +96,13 @@ void draw() {
 //        
 //        noiseAmt = amt;
 //    }
-    void setNoise(bool trigger) {
-        
-        if (trigger) {
+    
+    void setNoise() {
             
         tween.setParameters(0,ease,ofxTween::easeInOut,0.01,1.0,duration,0);
 
-        }
-        
     }
-    
-    void setDuration(int millis) {
-        
-        duration = millis;
-    }
+
     void setPos(ofPoint position) {
         
         pos = position;

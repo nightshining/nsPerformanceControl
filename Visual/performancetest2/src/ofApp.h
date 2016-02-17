@@ -46,5 +46,9 @@ class ofApp : public ofBaseApp {
 
     int counter;
     bool bDebug;
+    
+    //Effects//
+    ofShader effect;
+    ofFbo fbo;
 
 };

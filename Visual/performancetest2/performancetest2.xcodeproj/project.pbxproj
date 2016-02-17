@@ -129,6 +129,8 @@
 		5D64B3C01BC1D2EB00A53028 /* Sphere.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sphere.h; sourceTree = "<group>"; };
 		5D64B3C11BC1D2F600A53028 /* Waves.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Waves.h; sourceTree = "<group>"; };
 		5D6C17221C66C3B200AF9587 /* DeformedSphere.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeformedSphere.h; sourceTree = "<group>"; };
+		5D9C3F411C740D750088CD89 /* tv.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = tv.frag; sourceTree = "<group>"; };
+		5D9C3F421C740D750088CD89 /* tv.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = tv.vert; sourceTree = "<group>"; };
 		5DC571121BC99AC0002C8701 /* nsOsc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nsOsc.cpp; sourceTree = "<group>"; };
 		5DC571131BC99AC0002C8701 /* nsOsc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nsOsc.h; sourceTree = "<group>"; };
 		5DDB37931BCA08B000C35D92 /* ofxOsc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxOsc.h; sourceTree = "<group>"; };
@@ -319,6 +321,15 @@
 				5D6C17221C66C3B200AF9587 /* DeformedSphere.h */,
 			);
 			name = Shapes;
+			sourceTree = "<group>";
+		};
+		5D9C3F431C740D7B0088CD89 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				5D9C3F411C740D750088CD89 /* tv.frag */,
+				5D9C3F421C740D750088CD89 /* tv.vert */,
+			);
+			name = Shaders;
 			sourceTree = "<group>";
 		};
 		5DDB37911BCA08B000C35D92 /* ofxOsc */ = {
@@ -566,6 +577,7 @@
 			children = (
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
+				5D9C3F431C740D7B0088CD89 /* Shaders */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
