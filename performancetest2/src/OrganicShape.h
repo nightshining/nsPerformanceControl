@@ -1,6 +1,7 @@
 
 #include "ofMain.h"
 #include "ofxMeshUtils.h"
+#include "ofxControlUtils.h"
 
 class OrganicShape {
     
@@ -31,12 +32,16 @@ public:
         
         alpha = 0.0f;
         alphaVel = 0.05f;
+        
     }
     
     void draw(){
     
-   // glShadeModel(GL_FLAT);
-   // glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);
+    ofPushStyle();
+    ofPushMatrix();
+        
+    glShadeModel(GL_FLAT);
+    glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);
     
     float targetSpeed = 0.08f;
     a1value = moveTowards(a1value, a1target, targetSpeed);
@@ -105,9 +110,7 @@ public:
     ofxMeshUtils::calcNormals(mesh);
 
     
-    ofPushStyle();
-    ofPushMatrix();
-        
+
         if (bToggleWire) {
             mesh.setMode(OF_PRIMITIVE_TRIANGLES);
         
@@ -182,7 +185,19 @@ public:
         alpha = 0.0f;
         bAlpha = true;
         
+        //Gives nice shape//
+        n1value = 0.5;
     }
+    
+//    void triggerRandomShape(int r){
+//
+//        if(r==0) { a1value = 0.1; }
+//        if(r==1) { a2value = 0.4; }
+//        if(r==2) { n1value = 0.5; }
+//    }
+    
+  
+    
     
 private:
     

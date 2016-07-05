@@ -102,9 +102,26 @@ void ofApp::update(){
 //            _noisewave.setRandomTrigger();
 //        }
     
-    _miniL.setPos(ofPoint(ofGetMouseX(), ofGetMouseY()));
+    _orgL.setPos(ofPoint(ofGetWidth()*.18, ofGetHeight()*0.5));
+    _orgR.setPos(ofPoint(ofGetWidth()*.80, ofGetHeight()*0.5));
+        
+    if (osc.getFloatMessage(0)) {
+     
+        _orgL.triggerAlpha();
+    }
+
+
+    if (osc.getFloatMessage(1)) {
+        
+        _orgR.triggerAlpha();
+    }
+    
+
+        
+    
+    _miniL.setPos(ofPoint(ofGetWidth()*0.5f,ofGetHeight()*0.5f));
     _miniL.setNoise(ofGetMousePressed());
-    //_miniL.setMovement(osc.getSlider(1), osc.getSlider(2));
+    _miniL.setMovement(osc.getSlider(1), osc.getSlider(2));
         
         
     } //end 3
@@ -207,7 +224,8 @@ void ofApp::draw(){
             _ghostR.draw();
             break;
         case 3:
-            //_noisewave.draw();
+            _orgL.draw();
+            _orgR.draw();
             _miniL.draw();
             break;
         case 4:
@@ -277,7 +295,8 @@ void ofApp::keyPressed(int key){
     if (key == '1') {
         
         ofSetFullscreen(true);
-        
+
+       
         
         fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
         
@@ -299,11 +318,12 @@ void ofApp::keyPressed(int key){
         
 
     }
-    
-    if (key == 'd') {
+        if (key == 'd') {
         
         bDebug = !bDebug;
     }
+
+    
 
 }
 

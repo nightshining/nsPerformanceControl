@@ -12,7 +12,7 @@ private:
     float time, noise, size, alpha;
     ofFloatColor color;
     ofPoint pos;
-    ofVec3f coords, rotate;
+    ofVec3f coords;
     
     float x, y, easing;
     float timeX, timeY;
@@ -33,7 +33,7 @@ public:
         amp = 0;
         alpha = 0.20; //0.25
         
-        easing = 0.005;
+        easing = 0.5 / 10;
 
     }
     
@@ -80,17 +80,17 @@ public:
         
         addMovement();
 
-        int spacing = 150;
+        int spacing = 125;
         
         for (float u = 0.0; u < PI; u += PI / spacing) {
             for (float v = 0.0; v < PI; v += PI / spacing) {
                 
                 time = ofGetElapsedTimef() * 0.5;
                 noise =  ofNoise(time * .25);
-                size = 100;
+                size = 200;
                   
                 coords.x = sin(time + u) * size;
-                coords.y = sin(v * u) * ofNoise(u + timeX + timeY) * size;
+                coords.y = sin(v * u) * ofNoise(u + timeY) * size;
                 coords.z = sin(u) * cos(v) * size;
                 
                 color = ofFloatColor(0.9f,.95f, 1.0f, u * alpha);
@@ -107,10 +107,10 @@ public:
         ofPushStyle();
         ofPushMatrix();
         ofTranslate(pos);
-        float r = ofGetElapsedTimef() * 5.0f;
-       // ofRotateX(r);
-       // ofRotateY(r);
-       // ofRotateZ(r);
+        int vel = 250;
+        ofRotateX(timeX * vel);
+        ofRotateY(timeY * vel);
+        ofRotateZ(timeY * vel);
         mesh.draw();
         ofPopMatrix();
         ofPopStyle();
@@ -119,8 +119,8 @@ public:
     
     void setMovement(float _setX, float _setY) {
         
-        setMovementX = ofMap(_setX,0,1,0,100);
-        setMovementY = ofMap(_setY,0,1,0,100);
+        setMovementX = _setX;
+        setMovementY = _setY;
     }
     
     

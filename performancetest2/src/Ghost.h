@@ -98,7 +98,6 @@ public:
         
         alpha = ofMap(rampToggle(value, .75, .5), 0.0, 1.0, 0.0, 0.1);
         
-
     }
     
     void setPos(ofPoint set) {

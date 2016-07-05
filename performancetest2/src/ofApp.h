@@ -13,6 +13,7 @@
 #include "DeformedSphere.h"
 #include "LongWave.h"
 #include "Jelly.h"
+#include "OrganicShape.h"
 #include "nsOsc.h"
 
 
@@ -37,7 +38,8 @@ class ofApp : public ofBaseApp {
     Waves _waveL, _waveR;
     Apple _apple, _apple2;
     Ghost _ghostL, _ghostR;
-    NoiseWave _noisewave;
+//    NoiseWave _noisewave;
+    OrganicShape _orgL, _orgR;
     MiniNoise _miniL;
     Sine _sine;
     Mold _moldL, _moldR;
@@ -55,5 +57,6 @@ class ofApp : public ofBaseApp {
     //Effects//
     ofShader effect, effect2;
     ofFbo fbo;
+    
 
 };
