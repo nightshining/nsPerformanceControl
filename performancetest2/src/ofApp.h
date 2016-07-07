@@ -5,15 +5,13 @@
 #include "Waves.h"
 #include "Apple.h"
 #include "Ghost.h"
-#include "NoiseWave.h"
 #include "MiniNoise.h"
 #include "Sine.h"
 #include "Mold.h"
 #include "Fin.h"
 #include "DeformedSphere.h"
-#include "LongWave.h"
-#include "Jelly.h"
 #include "OrganicShape.h"
+#include "NoiseSphere.h"
 #include "nsOsc.h"
 
 
@@ -38,15 +36,18 @@ class ofApp : public ofBaseApp {
     Waves _waveL, _waveR;
     Apple _apple, _apple2;
     Ghost _ghostL, _ghostR;
-//    NoiseWave _noisewave;
     OrganicShape _orgL, _orgR;
     MiniNoise _miniL;
     Sine _sine;
     Mold _moldL, _moldR;
     Fin _fin;
     DeformedSphere _dSphereL, _dSphereR;
-    LongWave _longL, _longR;
-    Jelly _jelly;
+    NoiseSphere _nSphere;
+    
+// UNUSED
+//    NoiseWave _noisewave;
+//    LongWave _longL, _longR;
+//    Jelly _jelly;
     
     nsOsc osc;
     

@@ -135,6 +135,7 @@
 		5D6C17221C66C3B200AF9587 /* DeformedSphere.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeformedSphere.h; sourceTree = "<group>"; };
 		5D6C4E5E1D2AFED100D7EA4A /* tv.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = tv.frag; path = bin/data/shaders/tv.frag; sourceTree = "<group>"; };
 		5D6C4E5F1D2AFED100D7EA4A /* tv.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = tv.vert; path = bin/data/shaders/tv.vert; sourceTree = "<group>"; };
+		5D6C4E621D2D923A00D7EA4A /* NoiseSphere.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoiseSphere.h; sourceTree = "<group>"; };
 		5D7C453A1CBEE9AA00B3DE4E /* LongWave.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LongWave.h; sourceTree = "<group>"; };
 		5D7C453B1CBEE9B800B3DE4E /* Jelly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Jelly.h; sourceTree = "<group>"; };
 		5DC571121BC99AC0002C8701 /* nsOsc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nsOsc.cpp; sourceTree = "<group>"; };
@@ -346,6 +347,7 @@
 				5D7C453A1CBEE9AA00B3DE4E /* LongWave.h */,
 				5D7C453B1CBEE9B800B3DE4E /* Jelly.h */,
 				5D2458041D28328C002E070D /* OrganicShape.h */,
+				5D6C4E621D2D923A00D7EA4A /* NoiseSphere.h */,
 			);
 			name = Shapes;
 			sourceTree = "<group>";

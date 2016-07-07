@@ -31,7 +31,7 @@ void ofApp::setup(){
     fbo.end();
 
     
-    counter = 3;
+    counter = 5;
 
 }
 
@@ -88,19 +88,8 @@ void ofApp::update(){
      //end2
     
     if (counter == 3) {
-
-    //Noise Wave//
     
-//        _noisewave.setNoise(osc.getPad(3));
-//        
-//        float triggerNoiseWave = osc.getFloatMessage(0);
-//    
-//        _noisewave.setAlpha(triggerNoiseWave);
-//        _noisewave.setFlashTrigger(triggerNoiseWave);
-//        
-//        if (triggerNoiseWave == 1.0) {
-//            _noisewave.setRandomTrigger();
-//        }
+    // Mini Noise and Organic Shapes
     
     _orgL.setPos(ofPoint(ofGetWidth()*.18, ofGetHeight()*0.5));
     _orgR.setPos(ofPoint(ofGetWidth()*.80, ofGetHeight()*0.5));
@@ -115,9 +104,6 @@ void ofApp::update(){
         
         _orgR.triggerAlpha();
     }
-    
-
-        
     
     _miniL.setPos(ofPoint(ofGetWidth()*0.5f,ofGetHeight()*0.5f));
     _miniL.setNoise(ofGetMousePressed());
@@ -163,8 +149,18 @@ void ofApp::update(){
     
     } //end 4
     
+    //Noise Sphere//
     
     if (counter == 5) {
+        
+        _nSphere.triggerScale(osc.getFloatMessage(0));
+        
+    }
+    
+    //end 5
+    
+    
+    if (counter == 6) {
         
         //Fin//
         _fin.setNoise(osc.getSlider(0));
@@ -191,16 +187,8 @@ void ofApp::update(){
             _dSphereR.setPulse();
         }
         
-    } //end 5
+    } //end 6
     
-    //Longwave//
-    
-    if (counter == 6) {
-        
-
-    }
-    
-    //end 6
 }
 
 //--------------------------------------------------------------
@@ -234,14 +222,12 @@ void ofApp::draw(){
             _moldR.draw();
             break;
         case 5:
+            _nSphere.draw();
+            break;
+        case 6:
             _fin.draw();
             _dSphereL.draw();
             _dSphereR.draw();
-            break;
-        case 6:
-            _longL.draw();
-            _longR.draw();
-            _jelly.draw();
             break;
         default:
             break;
