@@ -19,7 +19,7 @@ public:
     
 NoiseSphere(){
     
-    radious = 200;
+    radious = 250;
     noiseScale = 0.009f;
     timeScale = 0.6f;
     scale = 0.5f;
@@ -42,9 +42,9 @@ void draw(){
     ofTranslate(ofGetWidth() * 0.5f, ofGetHeight() * 0.5f);
     ofScale(scale, scale);
     float timeZ = ofGetElapsedTimef() * 15.0f;
-    float timeX = ofGetElapsedTimef() * 5.0f;
-    ofRotateZ(scale);
-    ofRotateX(scale * 4.0f);
+    float timeX = ofGetElapsedTimef() * 25.0f;
+    ofRotateZ(scale + timeZ);
+    ofRotateX(scale + timeX);
     
     ofSetColor(c);
     ofNoFill();
@@ -55,7 +55,7 @@ void draw(){
     
     for(float y = -radious * 2.0 / holes; y <= radious * 2.0 / holes; y+=4){
         
-        c.a = y * 0.65f;
+        c.a = y * 0.5f;
         
         //Individual Shape
         
@@ -66,13 +66,13 @@ void draw(){
         
         int resolution = 128;
         
-        for(float radian = 0; radian < TWO_PI; radian += PI / resolution){
+        for(float radian = 0; radian < TWO_PI; radian += TWO_PI / resolution){
             
             float x = r * cos(radian);
             float z = r * sin(radian);
             
             //float noise =  ofMap(ofNoise(x * noiseScale, ofGetElapsedTimef() * timeScale, z * noiseScale), 0, 1, -radious / 3, scale + radious / 3);
-            float noise =  ofMap(ofNoise(x * noiseScale + scale * 5.0f,0.0f, z * noiseScale), 0, 1, -radious / 3, scale + radious / 3);
+            float noise =  ofMap(ofNoise(x * noiseScale + scale * 5.0f + timeScale, scale, noiseScale), 0, 1, -radious / 3, scale + radious / 3);
             
             float yy = scale * y + noise;
 
@@ -83,8 +83,8 @@ void draw(){
                 }
             
             float rr = radious * cos(sin(abs(yy / radious)));
-            float xx = rr * cos(radian);
-            float zz = rr * sin(radian);
+            float xx = rr * cos(radian) * scale;
+            float zz = rr * sin(radian) * scale;
             
             ofVertex(xx, yy, zz);
             }
@@ -97,7 +97,7 @@ void draw(){
     
     void triggerScale(bool toggle){
         
-        float valToScale = addEase(ofMap(ctrl.rampToggle(toggle, 0.6f, 0.8f), 0.0f, 1.0f, 0.5f, 1.0f));
+        float valToScale = addEase(ofMap(ctrl.rampToggle(toggle, 0.6f, 0.8f), 0.0f, 1.0f, 0.5f, 0.8f));
         
         scale = valToScale;
     }
