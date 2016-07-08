@@ -155,6 +155,11 @@ void ofApp::update(){
         
         _nSphere.triggerScale(osc.getFloatMessage(0));
         
+        _fadeL.triggerFade(ofGetKeyPressed());
+        _fadeR.triggerFade(ofGetKeyPressed());
+        
+        _fadeL.setPos(ofPoint(ofGetWidth()*.15, ofGetHeight()*0.5));
+        _fadeR.setPos(ofPoint(ofGetWidth()*.85, ofGetHeight()*0.5));
     }
     
     //end 5
@@ -223,6 +228,9 @@ void ofApp::draw(){
             break;
         case 5:
             _nSphere.draw();
+            _fadeL.draw();
+            _fadeR.draw();
+            
             break;
         case 6:
             _fin.draw();

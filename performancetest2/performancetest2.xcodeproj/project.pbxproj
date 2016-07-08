@@ -92,6 +92,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5D1BE4521D2F2971001F5E56 /* FadeShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FadeShape.h; sourceTree = "<group>"; };
 		5D1D51001C07FCB800321C74 /* Fin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fin.h; sourceTree = "<group>"; };
 		5D1D51011C0BDCC400321C74 /* MiniNoise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiniNoise.h; sourceTree = "<group>"; };
 		5D2458041D28328C002E070D /* OrganicShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrganicShape.h; sourceTree = "<group>"; };
@@ -348,6 +349,7 @@
 				5D7C453B1CBEE9B800B3DE4E /* Jelly.h */,
 				5D2458041D28328C002E070D /* OrganicShape.h */,
 				5D6C4E621D2D923A00D7EA4A /* NoiseSphere.h */,
+				5D1BE4521D2F2971001F5E56 /* FadeShape.h */,
 			);
 			name = Shapes;
 			sourceTree = "<group>";

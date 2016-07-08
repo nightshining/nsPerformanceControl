@@ -12,6 +12,8 @@
 #include "DeformedSphere.h"
 #include "OrganicShape.h"
 #include "NoiseSphere.h"
+#include "FadeShape.h"
+
 #include "nsOsc.h"
 
 
@@ -43,6 +45,7 @@ class ofApp : public ofBaseApp {
     Fin _fin;
     DeformedSphere _dSphereL, _dSphereR;
     NoiseSphere _nSphere;
+    FadeShape _fadeL, _fadeR;
     
 // UNUSED
 //    NoiseWave _noisewave;
