@@ -13,37 +13,39 @@ private:
     ofPoint p;
     ofMesh mesh;
     
+
+    float sendNoise, amp, destroy;
+    ofxControlUtils noiseCtrl, noiseCtrl2;
+    
 public:
     
     FadeShape() {
-        
+    
         mesh.setMode(OF_PRIMITIVE_POINTS);
+    }
+    
+    void addNoise() {
+    
+        float liquidness = 50;
         
-        const float size = 100;
-        const float alpha = 0.08;
+        float amplitude = amp / destroy;
+        float speedDampen = 5;
         
-        const int total = 5000;
-        const float azimuth = 128.0 * PI / total;
-        const float inclination = PI / total;
-        const float radius = 100.0f;
         
-        ofVec3f center = ofVec3f(ofGetWidth()*0.5, ofGetHeight()*0.5, 0.0);
+        vector<ofVec3f>& verts = mesh.getVertices();
         
-        for (int i = 0; i < total; ++i) {
+        for(unsigned int i = 0; i < verts.size(); i++){
             
-            float x = radius * sin( inclination * i ) * cos( azimuth * i );
-            float y = radius * cos( inclination * i );
-            float z = radius * sin( inclination * i ) * sin( azimuth * i );
+            float liquidMesh = ofSignedNoise(verts[i].x/liquidness, verts[i].y/liquidness,verts[i].z/liquidness, ofGetElapsedTimef()/speedDampen) * amplitude;
             
-            ofVec3f vec = ofVec3f(x,y,z);
-            mesh.addVertex(vec);
-            c2 = ofFloatColor::black;
-            c2.a = ofMap(i, 0, total, 50, 255, true);
-            mesh.addColor(c2);
+            sendNoise = ofSignedNoise(verts[i].x/liquidness, verts[i].y * ofGetElapsedTimef() * 50, verts[i].z/liquidness, ofGetElapsedTimef()/speedDampen) * amplitude;
             
+            verts[i].x += liquidMesh;
+            verts[i].y += sendNoise;
+            verts[i].z += liquidMesh;
+            
+            mesh.setVertex(i, verts[i]);
         }
-
-        
     }
     
     void draw() {
@@ -56,14 +58,39 @@ public:
         int h = ofGetHeight() * 0.5f;
         ofSetColor(c);
         ofRect(0,0,w,h);
-//        ofSetColor(c2);
-//        ofCircle(0,0,10,10);
         ofRotateX(ofGetElapsedTimef() * 5.0f);
         ofRotateY(ofGetElapsedTimef() * 15.0f);
         ofRotateZ(ofGetElapsedTimef() * 20.0f);
         mesh.draw();
         ofPopMatrix();
         ofPopStyle();
+        
+        
+        mesh.clear();
+        
+        float size = 125;
+        float alpha = 0.08;
+        
+        int total = 5000;
+        float azimuth = 128.0f * PI / total;
+        float inclination = PI / total;
+        float radius = 125.0f;
+        
+        ofVec3f center = ofVec3f(ofGetWidth()*0.5f, ofGetHeight()*0.5f, 0.0);
+        
+        for (int i = 0; i < total; ++i) {
+            
+            float x = radius * sin( inclination * i ) * cos( azimuth * i );
+            float y = radius * cos( inclination * i );
+            float z = radius * sin( inclination * i ) * sin( azimuth * i );
+            
+            ofVec3f vec = ofVec3f(x,y,z);
+            mesh.addVertex(vec);
+            c2.a = ofMap(i, 0, total, 0, 255, true);
+            mesh.addColor(c2);
+            
+        }
+        addNoise();
         
     }
     
@@ -73,8 +100,11 @@ public:
         c = ofColor(cFade);
         c2 = ofColor(ofMap(cFade, 255,0,0,255));
         
-        for (int i = 0; i < mesh.getVertices().size(); i++){
+        int verts = mesh.getVertices().size();
+        
+        for (int i = 0; i < verts; i++){
             
+            c2.a = ofMap(i, 0, verts, 25, 255, true);
             mesh.setColor(i, c2);
         }
         
@@ -84,5 +114,16 @@ public:
         
         p = pos;
         
+    }
+    
+    void setNoise(float value) {
+        
+        float n = noiseCtrl.rampToggle(value, 0.05, 0.03);
+        amp = ofMap(n, 0.0, 1.0, 0, 200, true);
+        float n2 = noiseCtrl2.rampToggle(value, 0.4, 1.0);
+        destroy = ofMap(n2, 0.0, 1.0, 5.0, 10.0, true);
+        
+        
+
     }
 };

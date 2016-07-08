@@ -160,6 +160,9 @@ void ofApp::update(){
         
         _fadeL.setPos(ofPoint(ofGetWidth()*.15, ofGetHeight()*0.5));
         _fadeR.setPos(ofPoint(ofGetWidth()*.85, ofGetHeight()*0.5));
+        
+        _fadeL.setNoise(ofGetKeyPressed());
+        _fadeR.setNoise(ofGetKeyPressed());
     }
     
     //end 5
