@@ -17,11 +17,20 @@ private:
     float sendNoise, amp, destroy;
     ofxControlUtils noiseCtrl, noiseCtrl2;
     
+    
+    ofxTween pulse;
+    ofxEasingLinear easing;
+    float minSize, maxSize;
+    
 public:
     
     FadeShape() {
     
         mesh.setMode(OF_PRIMITIVE_POINTS);
+        minSize = 90;
+        maxSize = 125;
+        pulse.setParameters(easing, ofxTween::easeInOut, maxSize, minSize, 2000, 2000);
+
     }
     
     void addNoise() {
@@ -67,14 +76,14 @@ public:
         
         
         mesh.clear();
-        
-        float size = 125;
+        float tweenVal = pulse.update();
+        float size = tweenVal;
         float alpha = 0.08;
         
         int total = 5000;
         float azimuth = 128.0f * PI / total;
         float inclination = PI / total;
-        float radius = 125.0f;
+        float radius = tweenVal;
         
         ofVec3f center = ofVec3f(ofGetWidth()*0.5f, ofGetHeight()*0.5f, 0.0);
         
@@ -90,8 +99,14 @@ public:
             mesh.addColor(c2);
             
         }
+        
         addNoise();
         
+        if (pulse.isCompleted() && pulse.update() > minSize) {
+            
+            pulse.setParameters(easing, ofxTween::easeInOut, maxSize, minSize, 80, 0);
+            
+        }
     }
     
     void triggerFade(bool trigger){
@@ -114,6 +129,11 @@ public:
         
         p = pos;
         
+    }
+    
+    void triggerPulse(){
+        
+        pulse.setParameters(easing, ofxTween::easeInOut, minSize, maxSize, 200, 0);
     }
     
     void setNoise(float value) {

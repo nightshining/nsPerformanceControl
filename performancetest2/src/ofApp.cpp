@@ -163,6 +163,12 @@ void ofApp::update(){
         
         _fadeL.setNoise(ofGetKeyPressed());
         _fadeR.setNoise(ofGetKeyPressed());
+        
+        if (osc.getFloatMessage(1)){
+            
+            _fadeL.triggerPulse();
+            _fadeR.triggerPulse();
+        }
     }
     
     //end 5
