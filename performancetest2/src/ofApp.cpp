@@ -32,7 +32,9 @@ void ofApp::setup(){
 
     
     counter = 5;
-
+    
+    png.setup("images");
+    
 }
 
 //--------------------------------------------------------------
@@ -41,6 +43,8 @@ void ofApp::update(){
     //OSC//
     osc.update();
     
+    //PNG//
+    png.update();
 
     if (counter == 1) {
         
@@ -203,15 +207,15 @@ void ofApp::update(){
         
     } //end 6
     
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-
+   
     fbo.begin();
     ofClear(0);
-    
     
     switch (counter) {
         case 1:
@@ -248,7 +252,11 @@ void ofApp::draw(){
             break;
         default:
             break;
+            
     }
+    
+    //PNG//
+    png.draw(ofPoint(mouseX,mouseY));
     fbo.end();
     
     
@@ -263,9 +271,11 @@ void ofApp::draw(){
     effect.setUniform4f("iDate", ofGetYear(), ofGetMonth(), ofGetDay(), ofGetSeconds());
     
     ofRect(0,0, ofGetWidth(), ofGetHeight());
+   
     effect.end();
 
     
+
     if (bDebug) {
     
     osc.debugKnobs();
@@ -275,6 +285,7 @@ void ofApp::draw(){
     ofDrawBitmapString("Counter: " + ofToString(counter), ofPoint(ofGetWidth() * .75, ofGetHeight() * .15));
         
     }
+    
 
 }
 

@@ -12,6 +12,7 @@ private:
     float scale;
     ofColor c;
     ofxControlUtils ctrl;
+
     
     float x, easing;
     
@@ -25,6 +26,7 @@ NoiseSphere(){
     scale = 0.5f;
     c = ofColor::white;
     easing = 0.09f;
+    
 }
 float addEase(float valSmooth) {
         

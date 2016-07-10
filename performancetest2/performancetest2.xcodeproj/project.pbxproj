@@ -137,6 +137,7 @@
 		5D6C4E5E1D2AFED100D7EA4A /* tv.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = tv.frag; path = bin/data/shaders/tv.frag; sourceTree = "<group>"; };
 		5D6C4E5F1D2AFED100D7EA4A /* tv.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = tv.vert; path = bin/data/shaders/tv.vert; sourceTree = "<group>"; };
 		5D6C4E621D2D923A00D7EA4A /* NoiseSphere.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoiseSphere.h; sourceTree = "<group>"; };
+		5D72444A1D31BC7800544F17 /* PngSequence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PngSequence.h; sourceTree = "<group>"; };
 		5D7C453A1CBEE9AA00B3DE4E /* LongWave.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LongWave.h; sourceTree = "<group>"; };
 		5D7C453B1CBEE9B800B3DE4E /* Jelly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Jelly.h; sourceTree = "<group>"; };
 		5DC571121BC99AC0002C8701 /* nsOsc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nsOsc.cpp; sourceTree = "<group>"; };
@@ -352,6 +353,14 @@
 				5D1BE4521D2F2971001F5E56 /* FadeShape.h */,
 			);
 			name = Shapes;
+			sourceTree = "<group>";
+		};
+		5D72444B1D31BC7F00544F17 /* PNG */ = {
+			isa = PBXGroup;
+			children = (
+				5D72444A1D31BC7800544F17 /* PngSequence.h */,
+			);
+			name = PNG;
 			sourceTree = "<group>";
 		};
 		5D9C3F431C740D7B0088CD89 /* Shaders */ = {
@@ -624,6 +633,7 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				5D72444B1D31BC7F00544F17 /* PNG */,
 				5DE77AEB1C678438002D92EB /* OSC */,
 				5D64B3BE1BC1CA0F00A53028 /* Shapes */,
 			);

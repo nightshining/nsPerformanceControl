@@ -29,7 +29,7 @@ public:
         mesh.setMode(OF_PRIMITIVE_POINTS);
         minSize = 90;
         maxSize = 125;
-        pulse.setParameters(easing, ofxTween::easeInOut, maxSize, minSize, 2000, 2000);
+        pulse.setParameters(easing, ofxTween::easeInOut, maxSize, minSize, 20000, 0);
 
     }
     
@@ -104,7 +104,7 @@ public:
         
         if (pulse.isCompleted() && pulse.update() > minSize) {
             
-            pulse.setParameters(easing, ofxTween::easeInOut, maxSize, minSize, 80, 0);
+            pulse.setParameters(easing, ofxTween::easeInOut, maxSize, minSize, 200, 0);
             
         }
     }
@@ -134,6 +134,7 @@ public:
     void triggerPulse(){
         
         pulse.setParameters(easing, ofxTween::easeInOut, minSize, maxSize, 200, 0);
+       
     }
     
     void setNoise(float value) {
