@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxControlUtils.h"
+#include "PngSequence.h"
 
 class NoiseSphere {
     
@@ -12,7 +13,7 @@ private:
     float scale;
     ofColor c;
     ofxControlUtils ctrl;
-
+    PngSequence png;
     
     float x, easing;
     
@@ -26,6 +27,9 @@ NoiseSphere(){
     scale = 0.5f;
     c = ofColor::white;
     easing = 0.09f;
+    
+    //PNG//
+    png.setup("images/NoiseSpherePNG");
     
 }
 float addEase(float valSmooth) {
@@ -94,6 +98,11 @@ void draw(){
         }
     ofPopMatrix();
     ofPopStyle();
+    
+    png.update();
+
+    //PNG//
+    png.draw(ofPoint(ofGetWidth() * 0.5f, ofGetHeight() * 0.5f));
     
     }
     

@@ -33,7 +33,7 @@ void ofApp::setup(){
     
     counter = 5;
     
-    png.setup("images");
+
     
 }
 
@@ -43,9 +43,7 @@ void ofApp::update(){
     //OSC//
     osc.update();
     
-    //PNG//
-    png.update();
-
+    
     if (counter == 1) {
         
     //Waves//
@@ -254,9 +252,7 @@ void ofApp::draw(){
             break;
             
     }
-    
-    //PNG//
-    png.draw(ofPoint(mouseX,mouseY));
+
     fbo.end();
     
     

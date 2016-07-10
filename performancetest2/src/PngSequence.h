@@ -65,10 +65,9 @@ public:
        
         ofPushStyle();
         ofPushMatrix();
-        ofEnableBlendMode(OF_BLENDMODE_ALPHA);
         
         ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-        
+        images[frameIndex].setAnchorPercent(0.5f,0.5f);
         ofSetColor(fullColor);
         images[frameIndex].draw(pos);
         

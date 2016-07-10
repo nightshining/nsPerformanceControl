@@ -13,7 +13,7 @@
 #include "OrganicShape.h"
 #include "NoiseSphere.h"
 #include "FadeShape.h"
-#include "PngSequence.h"
+
 
 #include "nsOsc.h"
 
@@ -62,10 +62,6 @@ class ofApp : public ofBaseApp {
     //Effects//
     ofShader effect, effect2;
     ofFbo fbo;
-    
-    
-    PngSequence png;
 
-    
 
 };
