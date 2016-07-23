@@ -4,24 +4,35 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "C7A8F24CA038AA2748F70CCE7E98C0092077884B" : 0,
+    "7E804D925461714118DB355C65BC964B41D94376" : 0,
     "9A974E1DF3355655DF6805DC73A6FE76F51FED54" : 0,
+    "2F210AAA7F2F62519159C75080507D92C1F929CB" : 0,
+    "6B5D1DE462D521A98972DF70F1147E20268C546A" : 0,
     "4ABC9A364FF16EFD97D0061471DCBA3EAC743AD1" : 0,
     "97FDCF03A971289FFED99A88138A5909EA5F5D0C" : 0,
-    "C7A8F24CA038AA2748F70CCE7E98C0092077884B" : 0,
-    "6B5D1DE462D521A98972DF70F1147E20268C546A" : 0
+    "FA40DAC4B9E2565DD7F5B5FB7CA55524249F04EB" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9AEC9054-F67B-479F-A75B-4CE34607CA41",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "C7A8F24CA038AA2748F70CCE7E98C0092077884B" : "..\/addons\/ofxMeshUtils",
+    "7E804D925461714118DB355C65BC964B41D94376" : "..\/addons\/ofxUI",
     "9A974E1DF3355655DF6805DC73A6FE76F51FED54" : "nsPerformanceControl\/",
+    "2F210AAA7F2F62519159C75080507D92C1F929CB" : "..\/addons\/ofxMtlMapping2D",
+    "6B5D1DE462D521A98972DF70F1147E20268C546A" : "..\/addons\/ofxTween",
     "4ABC9A364FF16EFD97D0061471DCBA3EAC743AD1" : "..\/addons\/ofxControlUtils",
     "97FDCF03A971289FFED99A88138A5909EA5F5D0C" : "..\/addons\/ofxISF",
-    "C7A8F24CA038AA2748F70CCE7E98C0092077884B" : "..\/addons\/ofxMeshUtils",
-    "6B5D1DE462D521A98972DF70F1147E20268C546A" : "..\/addons\/ofxTween"
+    "FA40DAC4B9E2565DD7F5B5FB7CA55524249F04EB" : "..\/addons\/ofxMSAInteractiveObject"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "performancetest2",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "performancetest2\/performancetest2.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/morethanlogic\/ofxMtlMapping2D",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2F210AAA7F2F62519159C75080507D92C1F929CB"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/nightshining\/ofxControlUtils.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
@@ -31,6 +42,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/arturoc\/ofxTween.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6B5D1DE462D521A98972DF70F1147E20268C546A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/rezaali\/ofxUI.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7E804D925461714118DB355C65BC964B41D94376"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/satoruhiga\/ofxISF.git",
@@ -46,6 +62,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ofZach\/ofxMeshUtils.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C7A8F24CA038AA2748F70CCE7E98C0092077884B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Flightphase\/ofxMSAInteractiveObject.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FA40DAC4B9E2565DD7F5B5FB7CA55524249F04EB"
     }
   ]
 }

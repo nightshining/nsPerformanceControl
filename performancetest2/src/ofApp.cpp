@@ -1,9 +1,9 @@
 #include "ofApp.h"
 
-
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+    
+    
     ofSetOrientation(OF_ORIENTATION_DEFAULT,false);
     ofBackground(ofColor::black);
     ofDisableArbTex();
@@ -14,7 +14,7 @@ void ofApp::setup(){
     
     //Setup OSC//
     
-    osc.setup(7000);
+    osc.setup(7400);
     osc.setMessageName("/object1"); //index 0
     osc.setMessageName("/object2"); //index 1
 
@@ -29,11 +29,7 @@ void ofApp::setup(){
     fbo.begin();
     ofClear(0);
     fbo.end();
-
     
-    counter = 5;
-    
-
     
 }
 
@@ -41,6 +37,7 @@ void ofApp::setup(){
 void ofApp::update(){
     
     //OSC//
+    
     osc.update();
     
     
@@ -62,7 +59,9 @@ void ofApp::update(){
     if (counter == 2) {
     
     //Apple//
-        
+    
+        _apple.setPos(ofPoint(ofGetWidth()*0.5f,ofGetHeight()*0.5f));
+                      
         if (osc.getPad(0) == 1 || osc.getPad(4) == 1 || osc.getPad(7) == 1 || osc.getPad(9) || osc.getPad(11) == 1 || osc.getFloatMessage(1)) {
             
             _apple.triggerAlphaSlow(1);
@@ -108,9 +107,17 @@ void ofApp::update(){
     }
     
     _miniL.setPos(ofPoint(ofGetWidth()*0.5f,ofGetHeight()*0.5f));
-    _miniL.setNoise(ofGetMousePressed());
     _miniL.setMovement(osc.getSlider(1), osc.getSlider(2));
         
+        if (osc.getPad(0) == 1 || osc.getPad(8) == 1 || osc.getPad(12) == 1 || osc.getPad(13) || osc.getPad(15) == 1) {
+       
+            
+            _miniL.setNoise(1.0f);
+
+        } else {
+            
+            _miniL.setNoise(0.0f);
+        }
         
     } //end 3
     
@@ -157,14 +164,27 @@ void ofApp::update(){
         
         _nSphere.triggerScale(osc.getFloatMessage(0));
         
-        _fadeL.triggerFade(ofGetKeyPressed());
-        _fadeR.triggerFade(ofGetKeyPressed());
         
         _fadeL.setPos(ofPoint(ofGetWidth()*.15, ofGetHeight()*0.5));
         _fadeR.setPos(ofPoint(ofGetWidth()*.85, ofGetHeight()*0.5));
         
-        _fadeL.setNoise(ofGetKeyPressed());
-        _fadeR.setNoise(ofGetKeyPressed());
+        
+        if (osc.getPad(8) == 1 || osc.getPad(10) == 1 || osc.getPad(12) == 1 || osc.getPad(13) || osc.getPad(15) == 1) {
+            
+            
+            _fadeL.setNoise(1.0f);
+            _fadeR.setNoise(1.0f);
+            _fadeL.triggerFade(1.0f);
+            _fadeR.triggerFade(1.0f);
+            
+        } else {
+            
+            _fadeL.setNoise(0.0f);
+            _fadeR.setNoise(0.0f);
+            _fadeL.triggerFade(0.0f);
+            _fadeR.triggerFade(0.0f);
+
+        }
         
         if (osc.getFloatMessage(1)){
             
@@ -205,15 +225,16 @@ void ofApp::update(){
         
     } //end 6
     
-
+    
 }
+
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
-   
+
     fbo.begin();
     ofClear(0);
+    
     
     switch (counter) {
         case 1:
@@ -254,12 +275,15 @@ void ofApp::draw(){
     }
 
     fbo.end();
+
     
     
     float sliderEffectParam1 = ofMap(osc.getSlider(2), 0.0, 1.0, 0.0, 0.01, true);
     float sliderEffectParam2 = ofMap(osc.getSlider(3), 0.0, 1.0, 0.0, 0.01, true);
     
+    
     effect.begin();
+
     effect.setUniform3f("iResolution", ofGetWidth(), ofGetHeight(), 0.0);
     effect.setUniform1f("iGlobalTime", ofGetElapsedTimef());
     effect.setUniform4f("iMouse", sliderEffectParam1, sliderEffectParam2, 0.0, 0.0);
@@ -267,20 +291,23 @@ void ofApp::draw(){
     effect.setUniform4f("iDate", ofGetYear(), ofGetMonth(), ofGetDay(), ofGetSeconds());
     
     ofRect(0,0, ofGetWidth(), ofGetHeight());
-   
+
     effect.end();
 
-    
-
     if (bDebug) {
-    
+        
+    ofPushStyle();
+    ofPushMatrix();
     osc.debugKnobs();
     osc.debugPads();
     osc.debugSliders();
     ofDrawBitmapString("FPS: " + ofToString(ofGetFrameRate()), ofPoint(ofGetWidth() * .75, ofGetHeight() * .10));
     ofDrawBitmapString("Counter: " + ofToString(counter), ofPoint(ofGetWidth() * .75, ofGetHeight() * .15));
-        
+    ofPopMatrix();
+    ofPopStyle();
+    
     }
+    
     
 
 }
@@ -331,10 +358,9 @@ void ofApp::keyPressed(int key){
         if (key == 'd') {
         
         bDebug = !bDebug;
-    }
 
+        }
     
-
 }
 
 //--------------------------------------------------------------
@@ -376,7 +402,6 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
 }
-    
     /*     Ghost tempGhost;
      _ghost.push_back(tempGhost);
      }

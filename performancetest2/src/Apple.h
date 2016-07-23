@@ -72,7 +72,7 @@ public:
             ofPopMatrix();
             ofPopStyle();
             
-        pos = ofPoint(ofGetWidth() * .5, ofGetHeight() * .5);
+        
         
 //        alpha-=0.5;
 //        
@@ -81,6 +81,11 @@ public:
 //        }
 
         }
+    void setPos(ofPoint p) {
+        
+        pos = p;
+    
+    }
     
     void addNoise() {
         

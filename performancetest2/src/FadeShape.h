@@ -133,7 +133,7 @@ public:
     
     void triggerPulse(){
         
-        pulse.setParameters(easing, ofxTween::easeInOut, minSize, maxSize, 200, 0);
+        pulse.setParameters(easing, ofxTween::easeInOut, minSize, maxSize, 50, 0);
        
     }
     

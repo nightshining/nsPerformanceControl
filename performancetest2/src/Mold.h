@@ -49,7 +49,7 @@ public:
                 time = ofGetElapsedTimef() * 2.0;
                 coords.set(sin(u) * cos(v + time) * size, cos(u) * sin(v) * size, sin(v) * cos(v) * size);
                 
-                color = ofFloatColor(0.25,0.80,0.70, u * alpha);
+                color = ofFloatColor(0.65,0.90,0.95, u * alpha);
                 
               
                 

@@ -14,7 +14,7 @@
 #include "NoiseSphere.h"
 #include "FadeShape.h"
 
-
+#include "ofxGui.h"
 #include "nsOsc.h"
 
 
@@ -55,13 +55,11 @@ class ofApp : public ofBaseApp {
     
     nsOsc osc;
     
-
     int counter;
     bool bDebug;
     
-    //Effects//
+    // SHADERS //
+    
     ofShader effect, effect2;
     ofFbo fbo;
-
-
 };
