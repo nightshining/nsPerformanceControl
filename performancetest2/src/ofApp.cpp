@@ -7,14 +7,14 @@ void ofApp::setup(){
     ofSetOrientation(OF_ORIENTATION_DEFAULT,false);
     ofBackground(ofColor::black);
     ofDisableArbTex();
-
+    
     bDebug = false;
     
     counter = 0;
     
     //Setup OSC//
     
-    osc.setup(7400);
+    osc.setup(7000);
     osc.setMessageName("/object1"); //index 0
     osc.setMessageName("/object2"); //index 1
 
@@ -24,6 +24,7 @@ void ofApp::setup(){
     
     //Setup FBO//
     
+    
     fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
     
     fbo.begin();
@@ -31,10 +32,19 @@ void ofApp::setup(){
     fbo.end();
     
     
+    shaderFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    
+    shaderFbo.begin();
+    ofClear(0);
+    shaderFbo.end();
+    
+    
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
     
     //OSC//
     
@@ -77,9 +87,11 @@ void ofApp::update(){
 
         
     //Ghost//
-    
-    _ghostL.setPos(ofPoint(ofGetWidth() * .15, ofGetHeight() * .5));
-    _ghostR.setPos(ofPoint(ofGetWidth() * .85, ofGetHeight() * .5));
+    //a .15
+    //b .85
+        
+    _ghostL.setPos(ofPoint(ofGetWidth() * .2, ofGetHeight() * .5));
+    _ghostR.setPos(ofPoint(ofGetWidth() * .8, ofGetHeight() * .5));
     
         float triggerGhost = osc.getFloatMessage(0);
         _ghostL.triggerAlpha(triggerGhost);
@@ -165,8 +177,8 @@ void ofApp::update(){
         _nSphere.triggerScale(osc.getFloatMessage(0));
         
         
-        _fadeL.setPos(ofPoint(ofGetWidth()*.15, ofGetHeight()*0.5));
-        _fadeR.setPos(ofPoint(ofGetWidth()*.85, ofGetHeight()*0.5));
+        _fadeL.setPos(ofPoint(ofGetWidth()*.2, ofGetHeight()*0.5));
+        _fadeR.setPos(ofPoint(ofGetWidth()*.8, ofGetHeight()*0.5));
         
         
         if (osc.getPad(8) == 1 || osc.getPad(10) == 1 || osc.getPad(12) == 1 || osc.getPad(13) || osc.getPad(15) == 1) {
@@ -232,9 +244,16 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-    fbo.begin();
+    shaderFbo.begin();
     ofClear(0);
     
+    fbo.draw(0,-150, ofGetWidth(), ofGetHeight());
+    
+    shaderFbo.end();
+    
+    fbo.begin();
+    ofClear(0);
+    ofEnableAlphaBlending();
     
     switch (counter) {
         case 1:
@@ -273,27 +292,27 @@ void ofApp::draw(){
             break;
             
     }
-
+    ofDisableAlphaBlending();
     fbo.end();
 
     
-    
     float sliderEffectParam1 = ofMap(osc.getSlider(2), 0.0, 1.0, 0.0, 0.01, true);
     float sliderEffectParam2 = ofMap(osc.getSlider(3), 0.0, 1.0, 0.0, 0.01, true);
-    
     
     effect.begin();
 
     effect.setUniform3f("iResolution", ofGetWidth(), ofGetHeight(), 0.0);
     effect.setUniform1f("iGlobalTime", ofGetElapsedTimef());
     effect.setUniform4f("iMouse", sliderEffectParam1, sliderEffectParam2, 0.0, 0.0);
-    effect.setUniformTexture("iChannel0", fbo, 0);
+    effect.setUniformTexture("iChannel0", shaderFbo, 0);
     effect.setUniform4f("iDate", ofGetYear(), ofGetMonth(), ofGetDay(), ofGetSeconds());
-    
+
     ofRect(0,0, ofGetWidth(), ofGetHeight());
-
+    
     effect.end();
+    
 
+    
     if (bDebug) {
         
     ofPushStyle();

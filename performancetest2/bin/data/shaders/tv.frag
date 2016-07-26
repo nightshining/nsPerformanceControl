@@ -8,6 +8,7 @@ uniform sampler2D iChannel2; // Texture #3
 uniform sampler2D iChannel3; // Texture #4
 uniform vec4 iDate;
 
+
 // change these values to 0.0 to turn off individual effects
 float vertJerkOpt = 1.0;
 float vertMovementOpt = 1.0;
@@ -132,6 +133,6 @@ void main(void)
     
     gl_FragColor = vec4(color,1.0);
     
-  
+    
 
 }

@@ -50,13 +50,13 @@ void nsOsc::update() {
         
         receiver.getNextMessage(&message);
         
-        cout << "Message: " << message.getArgAsString(0) << endl;
+        //cout << "Message: " << message.getArgAsInt32(0) << endl;
         
         for(int i = 0; i < messageName.size(); i++ ) {
         
             if( message.getAddress() == messageName[i] ) {
             
-            receiveMessage[i] = message.getArgAsFloat(0);
+            receiveMessage[i] = message.getArgAsInt32(0);
             
             }
         }
