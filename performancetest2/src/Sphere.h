@@ -16,7 +16,7 @@ public:
     Sphere() {
         int colorAmt = 50;
         alpha.resize(colorAmt);
-        scale = 0.70;
+        scale = 0.4;
         counter = 0.003;
         boxAlpha = 0.0;
         trigger = 1.0;

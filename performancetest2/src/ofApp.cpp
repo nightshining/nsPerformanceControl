@@ -246,8 +246,9 @@ void ofApp::draw(){
 
     shaderFbo.begin();
     ofClear(0);
-    
-    fbo.draw(0,-150, ofGetWidth(), ofGetHeight());
+    int yOffset = -320;
+    cout << yOffset << endl;
+    fbo.draw(0,yOffset, ofGetWidth(), ofGetHeight());
     
     shaderFbo.end();
     
