@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxControlUtils.h"
+#include "PngSequence.h"
 
 class Mold : public ofxControlUtils {
     
@@ -14,6 +15,7 @@ private:
     ofFloatColor color;
     ofVec3f coords, rotate;
     ofPoint pos;
+    PngSequence png;
     
 public:
     
@@ -27,6 +29,10 @@ public:
         color = ofColor(0.0,0.0,0.0);
         time = 0.0;
         trigger = 0.0;
+
+        //PNG//
+        png.setup("images/MoldPNG");
+
         
     }
     
@@ -49,7 +55,8 @@ public:
                 time = ofGetElapsedTimef() * 2.0;
                 coords.set(sin(u) * cos(v + time) * size, cos(u) * sin(v) * size, sin(v) * cos(v) * size);
                 
-                color = ofFloatColor(0.65,0.90,0.95, u * alpha);
+//                color = ofFloatColor(0.65,0.90,0.95, u * alpha);
+                color = ofFloatColor(1.0,1.0,1.0, u * alpha);
                 
               
                 
@@ -71,11 +78,22 @@ public:
         ofPopMatrix();
         ofPopStyle();
         
+        png.update();
+        
+        //PNG//
+        
+        
+        
+        if (boxAlpha < 5) {
+            
+            png.draw(pos);
+        }
+        
     }
     
     void setAlpha() {
         
-        alpha = .08;
+        alpha = .09;
 
     }
     

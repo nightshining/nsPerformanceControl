@@ -1,4 +1,4 @@
-
+#pragma once
 #include "ofMain.h"
 
 
@@ -10,7 +10,8 @@ private:
     float sequenceFPS;
     bool  bFrameIndependent;
     int   frameIndex;
-
+    ofColor fullColor;
+    
     vector <ofImage> images;
     
 public:
@@ -19,6 +20,8 @@ public:
         bFrameIndependent = true;
         sequenceFPS = 24;
         frameIndex = 0;
+        fullColor = ofColor(255,255,255);
+
     }
     void setup(string directory){
       
@@ -61,8 +64,6 @@ public:
     
     void draw(ofPoint pos){
         
-        int fullColor = 255;
-       
         ofPushStyle();
         ofPushMatrix();
         
@@ -74,6 +75,11 @@ public:
         ofDisableBlendMode();
         ofPopMatrix();
         ofPopStyle();
+    }
+    
+    void setAlphaChannel(int alpha){
+        
+        fullColor.a = alpha;
     }
 
 };
