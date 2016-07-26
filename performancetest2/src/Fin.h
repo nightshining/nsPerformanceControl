@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "PngSequence.h"
 
 class Fin {
     
@@ -12,6 +13,7 @@ private:
     float sendNoise, amp, counter;
     ofVboMesh mesh;
     ofPoint pos;
+    PngSequence png;
     
     
 public:
@@ -23,7 +25,9 @@ public:
         noise = 0.0;
         easing = 0.05;
         
-        
+        //PNG//
+        png.setup("images/MicroPNG");
+
     }
     
     void draw() {
@@ -52,7 +56,7 @@ public:
                 float size = 175 + meshAmt * 0.25;
                 float x = sin(timeX + u) * size;
                 float y = sin(v + u) * ofNoise(u + timeY) * size + cos(timeY * u) * 25;
-                float z = sin(u * cos(v)) * size;
+                float z = sin(ofGetElapsedTimef() + u * cos(v)) * size;
                 
                 ofFloatColor c = ofFloatColor(1.,1.,1., u * 0.15);
                 mesh.addColor(c);
@@ -74,6 +78,13 @@ public:
         ofRotateZ(r);
         mesh.draw();
         ofPopMatrix();
+        
+        
+        /// PNG //
+        png.update();
+        png.draw(pos);
+        
+        
     }
     
     void addNoise() {

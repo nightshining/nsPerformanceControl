@@ -50,7 +50,10 @@ public:
                     coords.x = sin(v) * cos(u) * size;
                     coords.y = noise + cos(v + u) * size;
                     coords.z = sin(u + time + noise * cos(v + time)) * size;
-                    color = ofFloatColor(0.10,0.8,0.50, u * alpha);
+//                    color = ofFloatColor(0.10,0.8,0.50, u * alpha);
+
+                    color = ofFloatColor(0.05,0.95,0.8, u * alpha);
+                    
                     rotate.set(0, 0, 0);
                     
                     //Vertices

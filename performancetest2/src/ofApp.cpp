@@ -305,7 +305,7 @@ void ofApp::draw(){
     effect.setUniform3f("iResolution", ofGetWidth(), ofGetHeight(), 0.0);
     effect.setUniform1f("iGlobalTime", ofGetElapsedTimef());
     effect.setUniform4f("iMouse", sliderEffectParam1, sliderEffectParam2, 0.0, 0.0);
-    effect.setUniformTexture("iChannel0", fbo, 0);
+    effect.setUniformTexture("iChannel0", shaderFbo, 0);
     effect.setUniform4f("iDate", ofGetYear(), ofGetMonth(), ofGetDay(), ofGetSeconds());
 
     ofRect(0,0, ofGetWidth(), ofGetHeight());
